@@ -1,6 +1,6 @@
 ﻿namespace InfinityComparable
 {
-    public partial struct Infinity<T> : IEquatable<Infinity<T>>, IComparable<Infinity<T>>, IComparable
+    public struct Infinity<T> : IEquatable<Infinity<T>>, IComparable<Infinity<T>>, IComparable
         where T : struct, IComparable<T>, IComparable
     {
         private readonly bool positive;
