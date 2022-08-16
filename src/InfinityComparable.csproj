@@ -1,20 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-      <TargetFramework>net6.0</TargetFramework>
-      <ImplicitUsings>enable</ImplicitUsings>
-      <Nullable>enable</Nullable>
-      <id>InfinityComparable</id>
-      <authors>Victor Langemaire</authors>
-      <PackageLicenseExpression>MIT</PackageLicenseExpression>
-      <projectUrl>https://github.com/viclang/InfinityComparable</projectUrl>
-      <requireLicenseAcceptance>false</requireLicenseAcceptance>
-      <description></description>
-      <releaseNotes></releaseNotes>
-      <copyright></copyright>
-      <RepositoryType>git</RepositoryType>
-      <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-      <PublishRepositoryUrl>true</PublishRepositoryUrl>
-      <IncludeSymbols>true</IncludeSymbols>
-  </PropertyGroup>	
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<version>1.1.0</version>
+		<Nullable>enable</Nullable>
+		<id>InfinityComparable</id>
+		<authors>Victor Langemaire</authors>
+		<PackageProjectUrl>https://github.com/viclang/InfinityComparable</PackageProjectUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<Copyright>Copyright © 2022 Victor Langemaire</Copyright>
+		<RepositoryUrl>https://github.com/viclang/InfinityComparable</RepositoryUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>Compare a Nullable like it is NegativeInfinite or PositiveInfinite when null</description>
+		<RepositoryType>git</RepositoryType>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<IncludeSymbols>true</IncludeSymbols>
+		<PackageTags>nullable;infinity</PackageTags>
+	</PropertyGroup>
 </Project>
