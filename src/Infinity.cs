@@ -1,6 +1,6 @@
 ﻿namespace InfinityComparable
 {
-    public struct Infinity<T> : IEquatable<Infinity<T>>, IComparable<Infinity<T>>, IComparable
+    public readonly struct Infinity<T> : IEquatable<Infinity<T>>, IComparable<Infinity<T>>, IComparable
         where T : struct, IComparable<T>, IComparable
     {
         private readonly bool positive;
@@ -125,12 +125,12 @@
 
         public static Infinity<T> operator -(Infinity<T> value)
         {
-            return new Infinity<T>(false);
+            return new Infinity<T>(value.Finite, false);
         }
 
         public static Infinity<T> operator +(Infinity<T> value)
         {
-            return new Infinity<T>(true);
+            return new Infinity<T>(value.Finite, true);
         }
 
         public static bool operator ==(Infinity<T> left, Infinity<T> right)
