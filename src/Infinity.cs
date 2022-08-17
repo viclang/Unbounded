@@ -1,20 +1,20 @@
-﻿namespace InfinityComparable
+﻿using System.Text;
+
+namespace InfinityComparable
 {
     public readonly struct Infinity<T> : IEquatable<Infinity<T>>, IComparable<Infinity<T>>, IComparable
         where T : struct, IComparable<T>, IComparable
     {
         private readonly bool positive;
-        public T? Finite { get; } = null;
-        public bool IsInfinite => !Finite.HasValue;
+        public T? Finite { get; }
+        public bool IsInfinite => Finite is null;
 
-        public Infinity()
+        public Infinity() : this(null, false)
         {
-            positive = true;
         }
 
-        public Infinity(bool positive)
+        public Infinity(bool positive) : this(null, positive)
         {
-            this.positive = positive;
         }
 
         public Infinity(T? value, bool positive)
@@ -25,92 +25,77 @@
 
         public bool Equals(Infinity<T> other)
         {
-            return this == other;
+            return Finite is not null
+                ? other.Finite is not null && Finite.Value.Equals(other.Finite!.Value)
+                : other.IsInfinite && positive.Equals(other.positive);
         }
 
         public override bool Equals(object? other)
         {
             if (other is Infinity<T>)
             {
-                return this == (Infinity<T>)other;
+                return Equals((Infinity<T>)other);
             }
-            if (!IsInfinite && other is not Infinity<T>)
+            if (Finite is not null)
             {
-                return Finite.Equals(other);
+                return Finite!.Value.Equals(other);
             }
-            if (IsInfinite && other is double)
+            if (other is double)
             {
-                return positive && ((double)other) == double.PositiveInfinity
-                    || !positive && ((double)other) == double.NegativeInfinity;
+                return positive.Equals(((double)other) == double.PositiveInfinity);
             }
-            if (IsInfinite && other is float)
+            if (other is float)
             {
-                return positive && ((float)other) == float.PositiveInfinity
-                    || !positive && ((float)other) == float.NegativeInfinity;
+                return positive.Equals(((float)other) == float.PositiveInfinity);
             }
             return false;
         }
-
         public override int GetHashCode()
         {
-            return IsInfinite ? positive ? 1 : -1
-                : Finite.GetHashCode();
+            return Finite is not null
+                ? Finite.GetHashCode()
+                : positive ? 1 : -1;
         }
-
 
         public int CompareTo(Infinity<T> other)
         {
-            if (IsInfinite && other.IsInfinite)
+            if(Finite is not null)
             {
-                return positive.CompareTo(other.positive);
+                return other.Finite is not null
+                    ? Finite.Value.CompareTo(other.Finite.Value)
+                    : other.positive ? -1 : 1;
             }
-            if (IsInfinite && !other.IsInfinite)
-            {
-                return positive ? 1 : -1;
-            }
-            if (!IsInfinite && other.IsInfinite)
-            {
-                return other.positive ? -1 : 1;
-            }
-            return Finite!.Value.CompareTo(other.Finite!.Value);
+            return other.IsInfinite
+                ? positive.CompareTo(other.positive)
+                : positive ? 1 : -1;
         }
 
         public int CompareTo(object? other)
         {
-            if (IsInfinite && other is null)
-            {
-                return positive ? 1 : -1;
-            }
             if (other is Infinity<T>)
             {
                 return CompareTo((Infinity<T>)other);
             }
-            if (IsInfinite && other is double && double.IsInfinity((double)other))
+            if (Finite is not null)
             {
-                return (double)other == double.PositiveInfinity
-                    ? (positive ? 0 : -1)
-                    : (positive ? 1 : 0);
+                return Finite.Value.CompareTo(other);
             }
-            if (IsInfinite && other is float && float.IsInfinity((float)other))
+            if (other is double)
             {
-                return (float)other == double.PositiveInfinity
-                    ? (positive ? 0 : -1)
-                    : (positive ? 1 : 0);
+                return positive.CompareTo((double)other == double.PositiveInfinity);
             }
-            if (IsInfinite && other is not null)
+            if (other is float)
             {
-                return positive ? 1 : -1;
+                return positive.CompareTo((float)other == double.PositiveInfinity);
             }
-            return Finite!.Value.CompareTo(other);
+            return positive ? 1 : -1;
         }
 
         public override string ToString()
         {
-            if (IsInfinite)
-            {
-                return positive ? "+∞" : "-∞";
-            }
-            return string.Empty + Finite.ToString();
+            return Finite is not null
+                ? string.Empty + Finite.ToString()
+                : positive ? "+∞" : "-∞";
         }
 
         public static implicit operator Infinity<T>(T? value)
@@ -133,15 +118,19 @@
             return new Infinity<T>(value.Finite, true);
         }
 
+        public static Infinity<T> operator !(Infinity<T> value)
+        {
+            return new Infinity<T>(value.Finite, !value.positive);
+        }
+
         public static bool operator ==(Infinity<T> left, Infinity<T> right)
         {
-            return left.IsInfinite && right.IsInfinite && left.positive == right.positive
-                || !left.IsInfinite && !right.IsInfinite && left.Finite.Equals(right.Finite);
+            return left.Equals(right);
         }
 
         public static bool operator !=(Infinity<T> left, Infinity<T> right)
         {
-            return !left.Finite.Equals(right.Finite) && left.positive != right.positive;
+            return !left.Equals(right);
         }
 
         public static bool operator >(Infinity<T> left, Infinity<T> right)
