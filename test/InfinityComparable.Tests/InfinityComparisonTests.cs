@@ -2,8 +2,6 @@ namespace InifinityComparable.Tests
 {
     public class InfinityComparisonTests
     {
-        private static readonly Infinity<int> positiveInfinity = new Infinity<int>(null, true);
-        private static readonly Infinity<int> negativeInfinity = new Infinity<int>(null, false);
         private static readonly Infinity<int> maxFinite = new Infinity<int>(int.MaxValue, true);
         private static readonly Infinity<int> minFinite = new Infinity<int>(int.MinValue, true);
         private static readonly Infinity<int> negativeMinFinite = new Infinity<int>(int.MinValue, false);
@@ -14,29 +12,29 @@ namespace InifinityComparable.Tests
         public static TheoryData<Infinity<int>, Infinity<int>, int> AllCompareToWithExpectedResult =
             new TheoryData<Infinity<int>, Infinity<int>, int>
             {
-                { positiveInfinity, positiveInfinity, 0 },
-                { negativeInfinity, negativeInfinity, 0 },
-                { positiveInfinity, negativeInfinity, 1 },
-                { negativeInfinity, positiveInfinity, -1 },
+                { Infinity<int>.PositiveInfinity, Infinity<int>.PositiveInfinity, 0 },
+                { Infinity<int>.NegativeInfinity, Infinity<int>.NegativeInfinity, 0 },
+                { Infinity<int>.PositiveInfinity, Infinity<int>.NegativeInfinity, 1 },
+                { Infinity<int>.NegativeInfinity, Infinity<int>.PositiveInfinity, -1 },
                 { minFinite, negativeMinFinite, 0 },
                 { maxFinite, negativeMaxFinite, 0 },
-                { positiveInfinity, maxFinite, 1 },
-                { negativeInfinity, minFinite, -1 },
-                { minFinite, negativeInfinity, 1 },
-                { maxFinite, positiveInfinity, -1 },
+                { Infinity<int>.PositiveInfinity, maxFinite, 1 },
+                { Infinity<int>.NegativeInfinity, minFinite, -1 },
+                { minFinite, Infinity<int>.NegativeInfinity, 1 },
+                { maxFinite, Infinity<int>.PositiveInfinity, -1 },
             };
 
         public static TheoryData<Infinity<int>, object?, int> AllCompareToObjectWithExpectedResult =
             new TheoryData<Infinity<int>, object?, int>
             {
-                { positiveInfinity, float.PositiveInfinity, 0 },
-                { positiveInfinity, double.PositiveInfinity, 0 },
-                { negativeInfinity, float.NegativeInfinity, 0 },
-                { negativeInfinity, double.NegativeInfinity, 0 },
-                { positiveInfinity, float.NegativeInfinity, 1 },
-                { positiveInfinity, double.NegativeInfinity, 1 },
-                { negativeInfinity, float.PositiveInfinity, -1 },
-                { negativeInfinity, double.PositiveInfinity, -1 }
+                { Infinity<int>.PositiveInfinity, float.PositiveInfinity, 0 },
+                { Infinity<int>.PositiveInfinity, double.PositiveInfinity, 0 },
+                { Infinity<int>.NegativeInfinity, float.NegativeInfinity, 0 },
+                { Infinity<int>.NegativeInfinity, double.NegativeInfinity, 0 },
+                { Infinity<int>.PositiveInfinity, float.NegativeInfinity, 1 },
+                { Infinity<int>.PositiveInfinity, double.NegativeInfinity, 1 },
+                { Infinity<int>.NegativeInfinity, float.PositiveInfinity, -1 },
+                { Infinity<int>.NegativeInfinity, double.PositiveInfinity, -1 }
             };
 
         [Theory]
