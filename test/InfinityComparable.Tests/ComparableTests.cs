@@ -1,6 +1,6 @@
 namespace InifinityComparable.Tests
 {
-    public class InfinityComparisonTests
+    public class ComparableTests
     {
         private static readonly Infinity<int> maxFinite = new Infinity<int>(int.MaxValue, true);
         private static readonly Infinity<int> minFinite = new Infinity<int>(int.MinValue, true);

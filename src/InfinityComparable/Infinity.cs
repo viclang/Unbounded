@@ -6,19 +6,26 @@ namespace InfinityComparable
     public readonly struct Infinity<T> : IEquatable<Infinity<T>>, IComparable<Infinity<T>>, IComparable
         where T : struct, IEquatable<T>, IComparable<T>, IComparable
     {
-        private const string infinityToString = "Infinity";
-        private readonly bool positive;
+        internal readonly bool positive;
 
         [MemberNotNullWhen(false, nameof(Finite))]
         public bool IsInfinite { get; }
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly T value;
+        internal readonly T value;
+
+        public bool IsPositiveInfinity() => IsInfinite && positive;
+
+        public bool IsNegativeInfinity() => IsInfinite && !positive;
+
         public T? Finite => IsInfinite ? null : value;
+
         public T ValueOrDefault() => value;
+
         public T ValueOr(T other) => IsInfinite ? other : value;
 
         public static readonly Infinity<T> NegativeInfinity = new(default, true, false);
+
         public static readonly Infinity<T> PositiveInfinity = new(default, true, true);
 
         public Infinity() : this(default, true, true)
@@ -41,7 +48,7 @@ namespace InfinityComparable
         }
 
         public bool Equals(Infinity<T> other) => IsInfinite
-            ? other.IsInfinite && positive.Equals(other.positive)
+            ? other.IsInfinite && positive == other.positive
             : !other.IsInfinite && value.Equals(other.value);
 
         public override bool Equals(object? other)
@@ -69,6 +76,21 @@ namespace InfinityComparable
                 : value.CompareTo(other.value);
         }
 
+        public static implicit operator Infinity<T>(ValueTuple<T?, bool> value) => new(value.Item1, value.Item2);
+        public static implicit operator Infinity<T>(T? value) => new(value, true);
+        public static implicit operator T?(Infinity<T> value) => value.Finite;
+
+        public static Infinity<T> operator -(Infinity<T> value) => new(value.value, value.IsInfinite, false);
+        public static Infinity<T> operator +(Infinity<T> value) => new(value.value, value.IsInfinite, true);
+        public static Infinity<T> operator !(Infinity<T> value) => new(value.value, value.IsInfinite, !value.positive);
+
+        public static bool operator ==(Infinity<T> left, Infinity<T> right) => left.Equals(right);
+        public static bool operator !=(Infinity<T> left, Infinity<T> right) => !left.Equals(right);
+        public static bool operator >(Infinity<T> left, Infinity<T> right) => left.CompareTo(right) == 1;
+        public static bool operator <(Infinity<T> left, Infinity<T> right) => left.CompareTo(right) == -1;
+        public static bool operator >=(Infinity<T> left, Infinity<T> right) => left == right || left > right;
+        public static bool operator <=(Infinity<T> left, Infinity<T> right) => left == right || left < right;
+
         public int CompareTo(object? other)
         {
             if (other is Infinity<T> otherInfinity)
@@ -90,53 +112,15 @@ namespace InfinityComparable
             return value.CompareTo(other);
         }
 
-        public override string? ToString() => ToString(infinityToString, x => x.ToString());
+        public override string? ToString() => ToString(x => x.ToString(), Infinity.InfinityToString);
 
-        public string? ToString(Func<T, string?> valueToString) => ToString(infinityToString, valueToString);
-
-        public string? ToString(string infinityToString) => ToString(infinityToString, x => x.ToString());
-
-        public string? ToString(string infinityToString, Func<T, string?> valueToString) => IsInfinite
-            ? positive ? infinityToString : "-" + infinityToString
-            : valueToString(value);
-
-        public static implicit operator Infinity<T>(ValueTuple<T?, bool> value) => new(value.Item1, value.Item2);
-        public static implicit operator Infinity<T>(T? value) => new(value, true);
-        public static implicit operator T?(Infinity<T> value) => value.Finite;
-
-        public static Infinity<T> operator -(Infinity<T> value) => new(value.value, value.IsInfinite, false);
-        public static Infinity<T> operator +(Infinity<T> value) => new(value.value, value.IsInfinite, true);
-        public static Infinity<T> operator !(Infinity<T> value) => new(value.value, value.IsInfinite, !value.positive);
-
-        public static bool operator ==(Infinity<T> left, Infinity<T> right) => left.Equals(right);
-        public static bool operator !=(Infinity<T> left, Infinity<T> right) => !left.Equals(right);
-        public static bool operator >(Infinity<T> left, Infinity<T> right) => left.CompareTo(right) == 1;
-        public static bool operator <(Infinity<T> left, Infinity<T> right) => left.CompareTo(right) == -1;
-        public static bool operator >=(Infinity<T> left, Infinity<T> right) => left == right || left > right;
-        public static bool operator <=(Infinity<T> left, Infinity<T> right) => left == right || left < right;
+        public string? ToString(Func<T, string?> finiteToString, Func<bool, string?> infinityToString)
+            => IsInfinite ? infinityToString(positive) : finiteToString(value);
 
         public void Deconstruct(out T? value, out bool positive)
         {
             value = Finite;
             positive = this.positive;
         }
-    }
-
-    public static class Infinity
-    {
-        public static Infinity<T> Inf<T>(T? value = null, bool positive = true) where T : struct, IEquatable<T>, IComparable<T>, IComparable
-            => new(value, positive);
-
-        public static Infinity<T> Inf<T>(bool positive) where T : struct, IEquatable<T>, IComparable<T>, IComparable
-            => new(positive);
-
-        public static Infinity<T> ToInfinity<T>(this T? value, bool positive) where T : struct, IEquatable<T>, IComparable<T>, IComparable
-            => new(value, positive);
-
-        public static Infinity<T> ToPositiveInfinity<T>(this T? value) where T : struct, IEquatable<T>, IComparable<T>, IComparable
-            => new(value, true);
-
-        public static Infinity<T> ToNegativeInfinity<T>(this T? value) where T : struct, IEquatable<T>, IComparable<T>, IComparable
-            => new(value, false);
     }
 }
