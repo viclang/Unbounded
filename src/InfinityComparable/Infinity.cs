@@ -9,9 +9,9 @@ namespace InfinityComparable
 
         internal readonly bool positive;
 
-        public T? Finite => IsFinite ? value : null;
+        public readonly InfinityState State;
 
-        public InfinityState State { get; }
+        public T? Finite => IsFinite ? value : null;
 
         public bool IsNaN => State == InfinityState.IsNaN;
 
