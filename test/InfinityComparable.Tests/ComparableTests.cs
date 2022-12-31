@@ -2,11 +2,8 @@ namespace InifinityComparable.Tests
 {
     public class ComparableTests
     {
-        private static readonly Infinity<int> maxFinite = new Infinity<int>(int.MaxValue, true);
-        private static readonly Infinity<int> minFinite = new Infinity<int>(int.MinValue, true);
-        private static readonly Infinity<int> negativeMinFinite = new Infinity<int>(int.MinValue, false);
-        private static readonly Infinity<int> negativeMaxFinite = new Infinity<int>(int.MaxValue, false);
-
+        private static readonly Infinity<int> maxFinite = new Infinity<int>(int.MaxValue);
+        private static readonly Infinity<int> minFinite = new Infinity<int>(int.MinValue);
 
         // Arrange
         public static TheoryData<Infinity<int>, Infinity<int>, int> AllCompareToWithExpectedResult =
@@ -16,8 +13,6 @@ namespace InifinityComparable.Tests
                 { Infinity<int>.NegativeInfinity, Infinity<int>.NegativeInfinity, 0 },
                 { Infinity<int>.PositiveInfinity, Infinity<int>.NegativeInfinity, 1 },
                 { Infinity<int>.NegativeInfinity, Infinity<int>.PositiveInfinity, -1 },
-                { minFinite, negativeMinFinite, 0 },
-                { maxFinite, negativeMaxFinite, 0 },
                 { Infinity<int>.PositiveInfinity, maxFinite, 1 },
                 { Infinity<int>.NegativeInfinity, minFinite, -1 },
                 { minFinite, Infinity<int>.NegativeInfinity, 1 },
