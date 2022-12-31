@@ -8,130 +8,44 @@ namespace InfinityComparable
 {
     public static partial class Infinity
     {
-        #region int extensions
         public static Infinity<int> Add(this Infinity<int> left, Infinity<int> right)
             => Add(left, right, (x, y) => x + y);
 
-        public static Infinity<int> Add(this Infinity<int> left, int right)
-            => Add(left, right, (x, y) => x + y);
-
-        public static Infinity<int> Add(this int left, Infinity<int> right)
-            => Add(left, right, (x, y) => x + y);
-        #endregion
-
-        #region long extensions
         public static Infinity<long> Add(this Infinity<long> left, Infinity<long> right)
             => Add(left, right, (x, y) => x + y);
 
-        public static Infinity<long> Add(this Infinity<long> left, long right)
-            => Add(left, right, (x, y) => x + y);
-
-        public static Infinity<long> Add(this long left, Infinity<long> right)
-            => Add(left, right, (x, y) => x + y);
-        #endregion
-
-        #region double extensions
         public static Infinity<double> Add(this Infinity<double> left, Infinity<double> right)
             => Add(left, right, (x, y) => x + y);
 
-        public static Infinity<double> Add(this Infinity<double> left, double right)
-            => Add(left, right, (x, y) => x + y);
-
-        public static Infinity<double> Add(this double left, Infinity<double> right)
-            => Add(left, right, (x, y) => x + y);
-        #endregion
-
-        #region float extensions
         public static Infinity<float> Add(this Infinity<float> left, Infinity<float> right)
             => Add(left, right, (x, y) => x + y);
-
-        public static Infinity<float> Add(this Infinity<float> left, float right)
-            => Add(left, right, (x, y) => x + y);
-
-        public static Infinity<float> Add(this float left, Infinity<float> right)
-            => Add(left, right, (x, y) => x + y);
-        #endregion
 
         #region DateTime extensions
         public static Infinity<DateTime> Add(this Infinity<DateTime> left, Infinity<TimeSpan> right)
             => Add(left, right, (x, y) => x + y);
 
-        public static Infinity<DateTime> Add(this Infinity<DateTime> left, TimeSpan right)
-            => Add(left, right, (x, y) => x + y);
-
-        public static Infinity<DateTime> Add(this DateTime left, Infinity<TimeSpan> right)
-            => Add(left, right, (x, y) => x + y);
-
         public static Infinity<DateTime> AddMilliseconds(this Infinity<DateTime> left, Infinity<double> right)
-            => Add(left, right, (x, y) => x.AddMilliseconds(y));
-
-        public static Infinity<DateTime> AddMilliseconds(this Infinity<DateTime> left, double right)
-            => Add(left, right, (x, y) => x.AddMilliseconds(y));
-
-        public static Infinity<DateTime> AddMilliseconds(this DateTime left, Infinity<double> right)
             => Add(left, right, (x, y) => x.AddMilliseconds(y));
 
         public static Infinity<DateTime> AddSeconds(this Infinity<DateTime> left, Infinity<double> right)
             => Add(left, right, (x, y) => x.AddSeconds(y));
 
-        public static Infinity<DateTime> AddSeconds(this Infinity<DateTime> left, double right)
-            => Add(left, right, (x, y) => x.AddSeconds(y));
-
-        public static Infinity<DateTime> AddSeconds(this DateTime left, Infinity<double> right)
-            => Add(left, right, (x, y) => x.AddSeconds(y));
-
         public static Infinity<DateTime> AddMinutes(this Infinity<DateTime> left, Infinity<double> right)
-            => Add(left, right, (x, y) => x.AddMinutes(y));
-
-        public static Infinity<DateTime> AddMinutes(this Infinity<DateTime> left, double right)
-            => Add(left, right, (x, y) => x.AddMinutes(y));
-
-        public static Infinity<DateTime> AddMinutes(this DateTime left, Infinity<double> right)
             => Add(left, right, (x, y) => x.AddMinutes(y));
 
         public static Infinity<DateTime> AddHours(this Infinity<DateTime> left, Infinity<double> right)
             => Add(left, right, (x, y) => x.AddHours(y));
 
-        public static Infinity<DateTime> AddHours(this Infinity<DateTime> left, double right)
-            => Add(left, right, (x, y) => x.AddHours(y));
-
-        public static Infinity<DateTime> AddHours(this DateTime left, Infinity<double> right)
-            => Add(left, right, (x, y) => x.AddHours(y));
-
         public static Infinity<DateTime> AddDays(this Infinity<DateTime> left, Infinity<double> right)
-            => Add(left, right, (x, y) => x.AddDays(y));
-
-        public static Infinity<DateTime> AddDays(this Infinity<DateTime> left, double right)
-            => Add(left, right, (x, y) => x.AddDays(y));
-
-        public static Infinity<DateTime> AddDays(this DateTime left, Infinity<double> right)
             => Add(left, right, (x, y) => x.AddDays(y));
 
         public static Infinity<DateTime> AddMonths(this Infinity<DateTime> left, Infinity<int> right)
             => Add(left, right, (x, y) => x.AddMonths(y));
 
-        public static Infinity<DateTime> AddMonths(this Infinity<DateTime> left, int right)
-            => Add(left, right, (x, y) => x.AddMonths(y));
-
-        public static Infinity<DateTime> AddMonths(this DateTime left, Infinity<int> right)
-            => Add(left, right, (x, y) => x.AddMonths(y));
-
         public static Infinity<DateTime> AddYears(this Infinity<DateTime> left, Infinity<int> right)
             => Add(left, right, (x, y) => x.AddYears(y));
 
-        public static Infinity<DateTime> AddYears(this Infinity<DateTime> left, int right)
-            => Add(left, right, (x, y) => x.AddYears(y));
-
-        public static Infinity<DateTime> AddYears(this DateTime left, Infinity<int> right)
-            => Add(left, right, (x, y) => x.AddYears(y));
-
         public static Infinity<DateTime> AddTicks(this Infinity<DateTime> left, Infinity<long> right)
-            => Add(left, right, (x, y) => x.AddTicks(y));
-
-        public static Infinity<DateTime> AddTicks(this Infinity<DateTime> left, long right)
-            => Add(left, right, (x, y) => x.AddTicks(y));
-
-        public static Infinity<DateTime> AddTicks(this DateTime left, Infinity<long> right)
             => Add(left, right, (x, y) => x.AddTicks(y));
         #endregion
 
@@ -139,79 +53,28 @@ namespace InfinityComparable
         public static Infinity<DateTimeOffset> Add(this Infinity<DateTimeOffset> left, Infinity<TimeSpan> right)
             => Add(left, right, (x, y) => x + y);
 
-        public static Infinity<DateTimeOffset> Add(this Infinity<DateTimeOffset> left, TimeSpan right)
-            => Add(left, right, (x, y) => x + y);
-
-        public static Infinity<DateTimeOffset> Add(this DateTimeOffset left, Infinity<TimeSpan> right)
-            => Add(left, right, (x, y) => x + y);
-
         public static Infinity<DateTimeOffset> AddMilliseconds(this Infinity<DateTimeOffset> left, Infinity<double> right)
-            => Add(left, right, (x, y) => x.AddMilliseconds(y));
-
-        public static Infinity<DateTimeOffset> AddMilliseconds(this Infinity<DateTimeOffset> left, double right)
-            => Add(left, right, (x, y) => x.AddMilliseconds(y));
-
-        public static Infinity<DateTimeOffset> AddMilliseconds(this DateTimeOffset left, Infinity<double> right)
             => Add(left, right, (x, y) => x.AddMilliseconds(y));
 
         public static Infinity<DateTimeOffset> AddSeconds(this Infinity<DateTimeOffset> left, Infinity<double> right)
             => Add(left, right, (x, y) => x.AddSeconds(y));
 
-        public static Infinity<DateTimeOffset> AddSeconds(this Infinity<DateTimeOffset> left, double right)
-            => Add(left, right, (x, y) => x.AddSeconds(y));
-
-        public static Infinity<DateTimeOffset> AddSeconds(this DateTimeOffset left, Infinity<double> right)
-            => Add(left, right, (x, y) => x.AddSeconds(y));
-
         public static Infinity<DateTimeOffset> AddMinutes(this Infinity<DateTimeOffset> left, Infinity<double> right)
-            => Add(left, right, (x, y) => x.AddMinutes(y));
-
-        public static Infinity<DateTimeOffset> AddMinutes(this Infinity<DateTimeOffset> left, double right)
-            => Add(left, right, (x, y) => x.AddMinutes(y));
-
-        public static Infinity<DateTimeOffset> AddMinutes(this DateTimeOffset left, Infinity<double> right)
             => Add(left, right, (x, y) => x.AddMinutes(y));
 
         public static Infinity<DateTimeOffset> AddHours(this Infinity<DateTimeOffset> left, Infinity<double> right)
             => Add(left, right, (x, y) => x.AddHours(y));
 
-        public static Infinity<DateTimeOffset> AddHours(this Infinity<DateTimeOffset> left, double right)
-            => Add(left, right, (x, y) => x.AddHours(y));
-
         public static Infinity<DateTimeOffset> AddDays(this Infinity<DateTimeOffset> left, Infinity<double> right)
-            => Add(left, right, (x, y) => x.AddDays(y));
-
-        public static Infinity<DateTimeOffset> AddDays(this Infinity<DateTimeOffset> left, double right)
-            => Add(left, right, (x, y) => x.AddDays(y));
-
-        public static Infinity<DateTimeOffset> AddDays(this DateTimeOffset left, Infinity<double> right)
             => Add(left, right, (x, y) => x.AddDays(y));
 
         public static Infinity<DateTimeOffset> AddMonths(this Infinity<DateTimeOffset> left, Infinity<int> right)
             => Add(left, right, (x, y) => x.AddMonths(y));
 
-        public static Infinity<DateTimeOffset> AddMonths(this Infinity<DateTimeOffset> left, int right)
-            => Add(left, right, (x, y) => x.AddMonths(y));
-
-        public static Infinity<DateTimeOffset> AddMonths(this DateTimeOffset left, Infinity<int> right)
-            => Add(left, right, (x, y) => x.AddMonths(y));
-
         public static Infinity<DateTimeOffset> AddYears(this Infinity<DateTimeOffset> left, Infinity<int> right)
             => Add(left, right, (x, y) => x.AddYears(y));
 
-        public static Infinity<DateTimeOffset> AddYears(this Infinity<DateTimeOffset> left, int right)
-            => Add(left, right, (x, y) => x.AddYears(y));
-
-        public static Infinity<DateTimeOffset> AddYears(this DateTimeOffset left, Infinity<int> right)
-            => Add(left, right, (x, y) => x.AddYears(y));
-
         public static Infinity<DateTimeOffset> AddTicks(this Infinity<DateTimeOffset> left, Infinity<long> right)
-            => Add(left, right, (x, y) => x.AddTicks(y));
-
-        public static Infinity<DateTimeOffset> AddTicks(this Infinity<DateTimeOffset> left, long right)
-            => Add(left, right, (x, y) => x.AddTicks(y));
-
-        public static Infinity<DateTimeOffset> AddTicks(this DateTimeOffset left, Infinity<long> right)
             => Add(left, right, (x, y) => x.AddTicks(y));
         #endregion
 
@@ -219,28 +82,10 @@ namespace InfinityComparable
         public static Infinity<DateOnly> AddDays(this Infinity<DateOnly> left, Infinity<int> right)
             => Add(left, right, (x, y) => x.AddDays(y));
 
-        public static Infinity<DateOnly> AddDays(this Infinity<DateOnly> left, int right)
-            => Add(left, right, (x, y) => x.AddDays(y));
-
-        public static Infinity<DateOnly> AddDays(this DateOnly left, Infinity<int> right)
-            => Add(left, right, (x, y) => x.AddDays(y));
-
         public static Infinity<DateOnly> AddMonths(this Infinity<DateOnly> left, Infinity<int> right)
             => Add(left, right, (x, y) => x.AddMonths(y));
 
-        public static Infinity<DateOnly> AddMonth(this Infinity<DateOnly> left, int right)
-            => Add(left, right, (x, y) => x.AddMonths(y));
-
-        public static Infinity<DateOnly> AddMonths(this DateOnly left, Infinity<int> right)
-            => Add(left, right, (x, y) => x.AddMonths(y));
-
         public static Infinity<DateOnly> AddYears(this Infinity<DateOnly> left, Infinity<int> right)
-            => Add(left, right, (x, y) => x.AddYears(y));
-
-        public static Infinity<DateOnly> AddYears(this Infinity<DateOnly> left, int right)
-            => Add(left, right, (x, y) => x.AddYears(y));
-
-        public static Infinity<DateOnly> AddYears(this DateOnly left, Infinity<int> right)
             => Add(left, right, (x, y) => x.AddYears(y));
         #endregion
 
@@ -248,41 +93,15 @@ namespace InfinityComparable
         public static Infinity<TimeOnly> Add(this Infinity<TimeOnly> left, Infinity<TimeSpan> right)
             => Add(left, right, (x, y) => x.Add(y));
 
-        public static Infinity<TimeOnly> Add(this Infinity<TimeOnly> left, TimeSpan right)
-            => Add(left, right, (x, y) => x.Add(y));
-
-        public static Infinity<TimeOnly> Add(this TimeOnly left, Infinity<TimeSpan> right)
-            => Add(left, right, (x, y) => x.Add(y));
-
         public static Infinity<TimeOnly> AddMinutes(this Infinity<TimeOnly> left, Infinity<double> right)
-            => Add(left, right, (x, y) => x.AddMinutes(y));
-
-        public static Infinity<TimeOnly> AddMinutes(this Infinity<TimeOnly> left, double right)
-            => Add(left, right, (x, y) => x.AddMinutes(y));
-
-        public static Infinity<TimeOnly> AddMinutes(this TimeOnly left, Infinity<double> right)
             => Add(left, right, (x, y) => x.AddMinutes(y));
 
         public static Infinity<TimeOnly> AddHours(this Infinity<TimeOnly> left, Infinity<double> right)
             => Add(left, right, (x, y) => x.AddHours(y));
-
-        public static Infinity<TimeOnly> AddHours(this Infinity<TimeOnly> left, double right)
-            => Add(left, right, (x, y) => x.AddHours(y));
-
-        public static Infinity<TimeOnly> AddHours(this TimeOnly left, Infinity<double> right)
-            => Add(left, right, (x, y) => x.AddHours(y));
         #endregion
 
-        #region Timespan extensions
         public static Infinity<TimeSpan> Add(this Infinity<TimeSpan> left, Infinity<TimeSpan> right)
             => Add(left, right, (x, y) => x + y);
-
-        public static Infinity<TimeSpan> Add(this Infinity<TimeSpan> left, TimeSpan right)
-            => Add(left, right, (x, y) => x + y);
-
-        public static Infinity<TimeSpan> Add(this TimeSpan left, Infinity<TimeSpan> right)
-            => Add(left, right, (x, y) => x + y);
-        #endregion
 
         private static Infinity<TResult> Add<TLeft, TRight, TResult>(
             Infinity<TLeft> left,
