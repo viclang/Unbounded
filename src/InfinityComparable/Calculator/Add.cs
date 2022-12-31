@@ -118,33 +118,5 @@ namespace InfinityComparable
                 (InfinityState.IsFinite, InfinityState.IsInfinity) => new(right.positive),
                 _ => new()
             };
-
-        private static Infinity<TResult> Add<TLeft, TRight, TResult>(
-            Infinity<TLeft> left,
-            TRight right,
-            Func<TLeft, TRight, TResult> add)
-        where TLeft : struct, IEquatable<TLeft>, IComparable<TLeft>, IComparable
-        where TRight : struct, IEquatable<TRight>, IComparable<TRight>, IComparable
-        where TResult : struct, IEquatable<TResult>, IComparable<TResult>, IComparable
-            => left.State switch
-            {
-                InfinityState.IsFinite => new(add(left.value, right)),
-                InfinityState.IsInfinity => new(left.positive),
-                _ => new()
-            };
-
-        private static Infinity<TResult> Add<TLeft, TRight, TResult>(
-            TLeft left,
-            Infinity<TRight> right,
-            Func<TLeft, TRight, TResult> add)
-        where TLeft : struct, IEquatable<TLeft>, IComparable<TLeft>, IComparable
-        where TRight : struct, IEquatable<TRight>, IComparable<TRight>, IComparable
-        where TResult : struct, IEquatable<TResult>, IComparable<TResult>, IComparable
-            => right.State switch
-            {
-                InfinityState.IsFinite => new(add(left, right.value)),
-                InfinityState.IsInfinity => new(right.positive),
-                _ => new()
-            };
     }
 }
