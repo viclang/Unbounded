@@ -53,9 +53,12 @@ namespace InfinityComparable
 
         public T GetValueOrDefault(T other) => IsInfinity ? other : value;
 
-        public bool Equals(Infinity<T> other) => State == InfinityState.IsInfinity
-            ? other.IsInfinity && positive == other.positive
-            : other.IsFinite && value.Equals(other.value);
+        public bool Equals(Infinity<T> other) => (State, other.State) switch
+        {
+            (InfinityState.IsFinite, InfinityState.IsFinite) => value.Equals(other.value),
+            (InfinityState.IsInfinity, InfinityState.IsInfinity) => positive.Equals(other.positive),
+            _ => State.Equals(other.State)
+        };
 
         public override bool Equals(object? other)
         {

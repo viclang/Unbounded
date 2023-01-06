@@ -1,4 +1,4 @@
-namespace InifinityComparable.Tests
+namespace InfinityComparable.Tests
 {
     public class ComparableTests
     {

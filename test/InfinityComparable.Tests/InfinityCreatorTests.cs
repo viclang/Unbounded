@@ -1,4 +1,4 @@
-﻿namespace InifinityComparable.Tests
+﻿namespace InfinityComparable.Tests
 {
     public class InfinityCreatorTests
     {
@@ -6,8 +6,7 @@
         private static Infinity<int> positiveInfinity = new Infinity<int>(true);
         private static Infinity<int> negativeInfinity = new Infinity<int>(false);
 
-        public static TheoryData<Infinity<int>, Infinity<int>> AllCreatorsShouldBeEqual =
-            new TheoryData<Infinity<int>, Infinity<int>>
+        public static TheoryData<Infinity<int>, Infinity<int>> AllCreatorsShouldBeEqual = new()
             {
                 { Inf<int>(), positiveInfinity },
                 { +Inf<int>(), positiveInfinity },
