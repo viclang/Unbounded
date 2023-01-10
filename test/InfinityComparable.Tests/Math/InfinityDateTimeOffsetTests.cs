@@ -1,6 +1,4 @@
-﻿using InfinityComparable.Tests.Factories;
-
-namespace InfinityComparable.Tests
+﻿namespace InfinityComparable.Tests
 {
     public class InfinityDateTimeOffsetTests : InfinityDateTimeOffsetTestsBase
     {
