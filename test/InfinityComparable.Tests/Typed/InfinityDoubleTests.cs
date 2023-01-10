@@ -1,28 +1,14 @@
-﻿namespace InfinityComparable.Tests
+﻿using InfinityComparable.Tests.Factories;
+
+namespace InfinityComparable.Tests
 {
     public class InfinityDoubleTests
     {
         private const double _left = 2;
         private const double _right = 1;
-        private const double _zero = 0;
 
         public static TheoryData<Infinity<double>, Infinity<double>, Infinity<double>> AddData =
-            new()
-            {
-                { new(_left), new(_right), new(_left + _right) },
-                { new(false), new(_right), new(false) },
-                { new(true), new(_right), new(true) },
-                { new(_left), new(false), new(false) },
-                { new(_left), new(true), new(true) },
-                { new(false), new(_zero), new(false) },
-                { new(true), new(_zero), new(true) },
-                { new(_zero), new(false), new(false) },
-                { new(_zero), new(true), new(true) },
-                { new(true), new(true), new(true) },
-                { new(false), new(false), new(false) },
-                { new(false), new(true), new() },
-                { new(true), new(false), new() },
-            };
+            InfinityMathDataFactory.CreateAddData(_left, _right, _left + _right);
 
         [Theory]
         [MemberData(nameof(AddData))]
@@ -34,22 +20,7 @@
         }
 
         public static TheoryData<Infinity<double>, Infinity<double>, Infinity<double>> SubstractData =
-            new()
-            {
-                { new(_left), new(_right), new(_left - _right) },
-                { new(false), new(_right), new(false) },
-                { new(true), new(_right), new(true) },
-                { new(_left), new(false), new(false) },
-                { new(_left), new(true), new(true) },
-                { new(false), new(_zero), new(false) },
-                { new(true), new(_zero), new(true) },
-                { new(_zero), new(false), new(false) },
-                { new(_zero), new(true), new(true) },
-                { new(true), new(true), new() },
-                { new(false), new(false), new() },
-                { new(false), new(true), new() },
-                { new(true), new(false), new() },
-            };
+            InfinityMathDataFactory.CreateSubstractData(_left, _right, _left - _right);
 
         [Theory]
         [MemberData(nameof(SubstractData))]
@@ -61,22 +32,7 @@
         }
 
         public static TheoryData<Infinity<double>, Infinity<double>, Infinity<double>> MultiplyData =
-            new()
-            {
-                { new(_left), new(_right), new(_left * _right) },
-                { new(false), new(_right), new(false) },
-                { new(true), new(_right), new(true) },
-                { new(_left), new(false), new(false) },
-                { new(_left), new(true), new(true) },
-                { new(false), new(_zero), new() },
-                { new(true), new(_zero), new() },
-                { new(_zero), new(false), new() },
-                { new(_zero), new(true), new() },
-                { new(true), new(true), new(true) },
-                { new(false), new(false), new(true) },
-                { new(false), new(true), new(false) },
-                { new(true), new(false), new(false) },
-            };
+            InfinityMathDataFactory.CreateMultiplyData(_left, _right, _left * _right);
 
         [Theory]
         [MemberData(nameof(MultiplyData))]
@@ -88,22 +44,7 @@
         }
 
         public static TheoryData<Infinity<double>, Infinity<double>, Infinity<double>> DivideData =
-            new()
-            {
-                { new(_left), new(_right), new(_left / _right) },
-                { new(false), new(_right), new(true) },
-                { new(true), new(_right), new(true) },
-                { new(_left), new(false), new(_zero) },
-                { new(_left), new(true), new(_zero) },
-                { new(false), new(_zero), new(true) },
-                { new(true), new(_zero), new(true) },
-                { new(_zero), new(false), new(_zero) },
-                { new(_zero), new(true), new(_zero) },
-                { new(true), new(true), new() },
-                { new(false), new(false), new() },
-                { new(false), new(true), new() },
-                { new(true), new(false), new() },
-            };
+            InfinityMathDataFactory.CreateDivideData(_left, _right, _left / _right);
 
         [Theory]
         [MemberData(nameof(DivideData))]

@@ -1,31 +1,9 @@
-﻿namespace InfinityComparable.Tests
+﻿using InfinityComparable.Tests.Factories;
+
+namespace InfinityComparable.Tests
 {
-    public class InfinityDateTimeTests
+    public class InfinityDateTimeTests : InfinityDateTimeTestsBase
     {
-        private static readonly DateTime _left = new DateTime(2023, 1, 2);
-        private static readonly DateTime _rightDateTime = new DateTime(2023, 1, 1);
-        private static readonly TimeSpan _rightTimeSpan = TimeSpan.FromDays(1);
-        private static readonly TimeSpan _zeroTimeSpan = TimeSpan.Zero;
-        private static readonly DateTime _zeroDateTime = new DateTime();
-
-        public static TheoryData<Infinity<DateTime>, Infinity<TimeSpan>, Infinity<DateTime>> AddData =
-            new()
-            {
-                { new(_left), new(_rightTimeSpan), new(_left + _rightTimeSpan) },
-                { new(false), new(_rightTimeSpan), new(false) },
-                { new(true), new(_rightTimeSpan), new(true) },
-                { new(_left), new(false), new(false) },
-                { new(_left), new(true), new(true) },
-                { new(false), new(_zeroTimeSpan), new(false) },
-                { new(true), new(_zeroTimeSpan), new(true) },
-                { new(_zeroDateTime), new(false), new(false) },
-                { new(_zeroDateTime), new(true), new(true) },
-                { new(true), new(true), new(true) },
-                { new(false), new(false), new(false) },
-                { new(false), new(true), new() },
-                { new(true), new(false), new() },
-            };
-
         [Theory]
         [MemberData(nameof(AddData))]
         public void DateTime_Add_ReturnsExpected(Infinity<DateTime> left, Infinity<TimeSpan> right, Infinity<DateTime> expected)
@@ -34,24 +12,6 @@
 
             actual.Should().Be(expected);
         }
-
-        public static TheoryData<Infinity<DateTime>, Infinity<TimeSpan>, Infinity<DateTime>> SubstractTimeSpanData =
-            new()
-            {
-                { new(_left), new(_rightTimeSpan), new(_left - _rightTimeSpan) },
-                { new(false), new(_rightTimeSpan), new(false) },
-                { new(true), new(_rightTimeSpan), new(true) },
-                { new(_left), new(false), new(false) },
-                { new(_left), new(true), new(true) },
-                { new(false), new(_zeroTimeSpan), new(false) },
-                { new(true), new(_zeroTimeSpan), new(true) },
-                { new(_zeroDateTime), new(false), new(false) },
-                { new(_zeroDateTime), new(true), new(true) },
-                { new(true), new(true), new() },
-                { new(false), new(false), new() },
-                { new(false), new(true), new() },
-                { new(true), new(false), new() },
-            };
 
         [Theory]
         [MemberData(nameof(SubstractTimeSpanData))]
@@ -62,24 +22,77 @@
             actual.Should().Be(expected);
         }
 
+        [Theory]
+        [MemberData(nameof(AddMillisecondsData))]
+        public void DateTime_AddMilliseconds_ReturnsExpected(Infinity<DateTime> left, Infinity<double> right, Infinity<DateTime> expected)
+        {
+            var actual = left.AddMilliseconds(right);
 
-        public static TheoryData<Infinity<DateTime>, Infinity<DateTime>, Infinity<TimeSpan>> SubstractDateTimeData =
-            new()
-            {
-                { new(_left), new(_rightDateTime), new(_left - _rightDateTime) },
-                { new(false), new(_rightDateTime), new(false) },
-                { new(true), new(_rightDateTime), new(true) },
-                { new(_left), new(false), new(false) },
-                { new(_left), new(true), new(true) },
-                { new(false), new(_zeroDateTime), new(false) },
-                { new(true), new(_zeroDateTime), new(true) },
-                { new(_zeroDateTime), new(false), new(false) },
-                { new(_zeroDateTime), new(true), new(true) },
-                { new(true), new(true), new() },
-                { new(false), new(false), new() },
-                { new(false), new(true), new() },
-                { new(true), new(false), new() },
-            };
+            actual.Should().Be(expected);
+        }
+
+        [Theory]
+        [MemberData(nameof(AddSecondsData))]
+        public void DateTime_AddSeconds_ReturnsExpected(Infinity<DateTime> left, Infinity<double> right, Infinity<DateTime> expected)
+        {
+            var actual = left.AddSeconds(right);
+
+            actual.Should().Be(expected);
+        }
+
+        [Theory]
+        [MemberData(nameof(AddMinutesData))]
+        public void DateTime_AddMinutes_ReturnsExpected(Infinity<DateTime> left, Infinity<double> right, Infinity<DateTime> expected)
+        {
+            var actual = left.AddMinutes(right);
+
+            actual.Should().Be(expected);
+        }
+
+        [Theory]
+        [MemberData(nameof(AddHoursData))]
+        public void DateTime_AddHours_ReturnsExpected(Infinity<DateTime> left, Infinity<double> right, Infinity<DateTime> expected)
+        {
+            var actual = left.AddHours(right);
+
+            actual.Should().Be(expected);
+        }
+
+        [Theory]
+        [MemberData(nameof(AddDaysData))]
+        public void DateTime_AddDays_ReturnsExpected(Infinity<DateTime> left, Infinity<double> right, Infinity<DateTime> expected)
+        {
+            var actual = left.AddDays(right);
+
+            actual.Should().Be(expected);
+        }
+
+        [Theory]
+        [MemberData(nameof(AddMonthsData))]
+        public void DateTime_AddMonths_ReturnsExpected(Infinity<DateTime> left, Infinity<int> right, Infinity<DateTime> expected)
+        {
+            var actual = left.AddMonths(right);
+
+            actual.Should().Be(expected);
+        }
+
+        [Theory]
+        [MemberData(nameof(AddYearsData))]
+        public void DateTime_AddYears_ReturnsExpected(Infinity<DateTime> left, Infinity<int> right, Infinity<DateTime> expected)
+        {
+            var actual = left.AddYears(right);
+
+            actual.Should().Be(expected);
+        }
+
+        [Theory]
+        [MemberData(nameof(AddTicksData))]
+        public void DateTime_AddTicks_ReturnsExpected(Infinity<DateTime> left, Infinity<long> right, Infinity<DateTime> expected)
+        {
+            var actual = left.AddTicks(right);
+
+            actual.Should().Be(expected);
+        }
 
         [Theory]
         [MemberData(nameof(SubstractDateTimeData))]

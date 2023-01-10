@@ -17,7 +17,7 @@ namespace InfinityComparable
         public static Infinity<DateOnly> AddYears(this Infinity<DateOnly> left, Infinity<int> right)
             => Add(left, right, (x, y) => x.AddYears(y));
 
-        public static Infinity<DateOnly> Substract(this Infinity<DateOnly> left, Infinity<DateOnly> right)
-            => Substract(left, right, (x, y) => DateOnly.FromDayNumber(x.DayNumber - y.DayNumber));
+        public static Infinity<int> Substract(this Infinity<DateOnly> left, Infinity<DateOnly> right)
+            => Substract(left, right, (x, y) => x.DayNumber - y.DayNumber);
     }
 }
