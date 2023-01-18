@@ -2,7 +2,7 @@
 
 namespace InfinityComparable
 {
-    public struct Infinity<T> : IInfinity<T>, IEquatable<Infinity<T>>, IComparable<Infinity<T>>, IComparable
+    public readonly struct Infinity<T> : IEquatable<Infinity<T>>, IComparable<Infinity<T>>, IComparable
         where T : struct, IEquatable<T>, IComparable<T>, IComparable
     {
         internal readonly T value;
@@ -45,6 +45,8 @@ namespace InfinityComparable
 
         public static readonly Infinity<T> PositiveInfinity = new(true);
 
+        public static readonly Infinity<T> NaN = new();
+
         public bool IsPositiveInfinity() => IsInfinity && positive;
 
         public bool IsNegativeInfinity() => IsInfinity && !positive;
@@ -57,15 +59,35 @@ namespace InfinityComparable
         {
             (InfinityState.IsFinite, InfinityState.IsFinite) => value.Equals(other.value),
             (InfinityState.IsInfinity, InfinityState.IsInfinity) => positive.Equals(other.positive),
-            _ => State.Equals(other.State)
+            (InfinityState.IsNaN, InfinityState.IsNaN) => true,
+            _ => false,
         };
 
         public override bool Equals(object? other)
         {
-            return other is Infinity<T> otherInfinity && Equals(otherInfinity)
-                || IsFinite && value.Equals(other)
-                || other is double otherDouble && positive.Equals(otherDouble == double.PositiveInfinity)
-                || other is float otherFloat && positive.Equals(otherFloat == float.PositiveInfinity);
+            if (other is Infinity<T> otherInfinity)
+            {
+                return Equals(otherInfinity);
+            }
+            switch (State)
+            {
+                case InfinityState.IsFinite:
+                    return value.Equals(other);
+                case InfinityState.IsInfinity:
+                    if (other is double otherDouble)
+                    {
+                        return positive.Equals(otherDouble == double.PositiveInfinity);
+                    }
+                    if (other is float otherFloat)
+                    {
+                        return positive.Equals(otherFloat == double.PositiveInfinity);
+                    }
+                    return false;
+                case InfinityState.IsNaN:
+                    return other is double.NaN || other is float.NaN;
+                default:
+                    throw new NotSupportedException();
+            }
         }
 
         public int CompareTo(Infinity<T> other) => (State, other.State) switch
@@ -74,7 +96,10 @@ namespace InfinityComparable
             (InfinityState.IsFinite, InfinityState.IsInfinity) => other.positive ? -1 : 1,
             (InfinityState.IsInfinity, InfinityState.IsInfinity) => positive.CompareTo(other.positive),
             (InfinityState.IsInfinity, InfinityState.IsFinite) => positive ? 1 : -1,
-            _ => throw new NotImplementedException()
+            (InfinityState.IsNaN, InfinityState.IsNaN) => 0,
+            (InfinityState.IsNaN, _) => -1,
+            (_, InfinityState.IsNaN) => 1,
+            _ => throw new NotSupportedException()
         };
 
         public int CompareTo(object? other)
@@ -83,19 +108,25 @@ namespace InfinityComparable
             {
                 return CompareTo(otherInfinity);
             }
-            if (IsFinite)
+            switch(State)
             {
-                return value.CompareTo(other);
+                case InfinityState.IsFinite:
+                    return other is double.NaN || other is float.NaN ? 1 : value.CompareTo(other);
+                case InfinityState.IsInfinity:
+                    if (other is double otherDouble)
+                    {
+                        return positive.CompareTo(otherDouble == double.PositiveInfinity);
+                    }
+                    if (other is float otherFloat)
+                    {
+                        return positive.CompareTo(otherFloat == double.PositiveInfinity);
+                    }
+                    return positive ? 1 : -1;
+                case InfinityState.IsNaN:
+                    return other is double.NaN || other is float.NaN ? 0 : -1;
+                default:
+                    throw new NotSupportedException();
             }
-            if (other is double otherDouble)
-            {
-                return positive.CompareTo(otherDouble == double.PositiveInfinity);
-            }
-            if (other is float otherFloat)
-            {
-                return positive.CompareTo(otherFloat == double.PositiveInfinity);
-            }
-            return positive ? 1 : -1;
         }
 
         public static implicit operator Infinity<T>(T? value) => value.HasValue ? new(value.Value) : new(false);
@@ -105,8 +136,8 @@ namespace InfinityComparable
         public static Infinity<T> operator +(Infinity<T> value) => value.IsInfinity ? new(true) : value;
         public static Infinity<T> operator !(Infinity<T> value) => value.IsInfinity ? new(!value.positive) : value;
 
-        public static bool operator ==(Infinity<T> left, Infinity<T> right) => left.Equals(right);
-        public static bool operator !=(Infinity<T> left, Infinity<T> right) => !left.Equals(right);
+        public static bool operator ==(Infinity<T> left, Infinity<T> right) => left.IsNaN && right.IsNaN ? false : left.Equals(right);
+        public static bool operator !=(Infinity<T> left, Infinity<T> right) => left.IsNaN && right.IsNaN ? true : !left.Equals(right);
         public static bool operator >(Infinity<T> left, Infinity<T> right) => left.CompareTo(right) == 1;
         public static bool operator <(Infinity<T> left, Infinity<T> right) => left.CompareTo(right) == -1;
         public static bool operator >=(Infinity<T> left, Infinity<T> right) => left == right || left > right;
@@ -116,25 +147,23 @@ namespace InfinityComparable
         {
             InfinityState.IsFinite => value.GetHashCode(),
             InfinityState.IsInfinity => positive.GetHashCode(),
-            _ => throw new NotImplementedException(),
+            _ => throw new NotSupportedException(),
         };
 
-        public override string? ToString() => ToString(Infinity.InfinityToString);
+        public override string? ToString() => ToString(f => f.ToString());
 
-        public string? ToString(Func<bool, string?> infinityToString) => ToString(x => x.ToString(), infinityToString);
-
-        public string? ToString(Func<T, string?> finiteToString, Func<bool, string?> infinityToString) => State switch
+        public string? ToString(Func<T, string?> finiteToString) => State switch
         {
             InfinityState.IsFinite => finiteToString(value),
-            InfinityState.IsInfinity => infinityToString(positive),
+            InfinityState.IsInfinity => positive ? Infinity.PositiveInfinityString : Infinity.NegativeInfinityString,
             InfinityState.IsNaN => "NaN",
-            _ => throw new NotImplementedException()
+            _ => throw new NotSupportedException()
         };
 
-        public void Deconstruct(out InfinityState state, out T value, out bool positive)
+        public void Deconstruct(out InfinityState state, out T? value, out bool positive)
         {
             state = State;
-            value = this.value;
+            value = this.Finite;
             positive = this.positive;
         }
     }

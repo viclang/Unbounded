@@ -1,4 +1,6 @@
-﻿namespace InfinityComparable.Tests
+﻿using FluentAssertions.Execution;
+
+namespace InfinityComparable.Tests
 {
     public class ToStringTests
     {
@@ -16,9 +18,12 @@
             var actualFinite = finite.ToString();
 
             // Assert
-            actualPositiveInfinity.Should().Be("Infinity");
-            actualNegativeInfinity.Should().Be("-Infinity");
-            actualFinite.Should().Be("1");
+            using(new AssertionScope())
+            {
+                actualPositiveInfinity.Should().Be("Infinity");
+                actualNegativeInfinity.Should().Be("-Infinity");
+                actualFinite.Should().Be("1");
+            }
         }
 
         [Fact]
@@ -30,14 +35,17 @@
             var finite = Inf<int>(1);
 
             // Act
-            var actualPositiveInfinity = positiveInfinity.ToString(fin => fin.ToString(), inf => inf ? "+∞" : "-∞");
-            var actualNegativeInfinity = negativeInfinity.ToString(fin => fin.ToString(), inf => inf ? "+∞" : "-∞");
-            var actualFinite = finite.ToString(fin => fin.ToString("0.0"), inf => inf.ToString());
+            var actualPositiveInfinity = positiveInfinity.ToString(fin => fin.ToString());
+            var actualNegativeInfinity = negativeInfinity.ToString(fin => fin.ToString());
+            var actualFinite = finite.ToString(fin => fin.ToString("0.0"));
 
             // Assert
-            actualPositiveInfinity.Should().Be("+∞");
-            actualNegativeInfinity.Should().Be("-∞");
-            actualFinite.Should().Be("1,0");
+            using (new AssertionScope())
+            {
+                actualPositiveInfinity.Should().Be("Infinity");
+                actualNegativeInfinity.Should().Be("-Infinity");
+                actualFinite.Should().Be("1,0");
+            }
         }
     }
 }

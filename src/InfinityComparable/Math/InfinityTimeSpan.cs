@@ -6,6 +6,6 @@
             => Add(left, right, (x, y) => x + y);
 
         public static Infinity<TimeSpan> Substract(this Infinity<TimeSpan> left, Infinity<TimeSpan> right)
-            => Substract(left, right, (x, y) => x.Add(-y));
+            => Substract(left, right, (x, y) => x - y);
     }
 }
