@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<version>1.1.5</version>
+		<version>1.2.0</version>
 		<Nullable>enable</Nullable>
 		<id>InfinityComparable</id>
 		<authors>Victor Langemaire</authors>
@@ -10,12 +10,12 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Copyright>Copyright © 2022 Victor Langemaire</Copyright>
 		<RepositoryUrl>https://github.com/viclang/InfinityComparable</RepositoryUrl>
-		<requireLicenseAcceptance>false</requireLicenseAcceptance>
-		<description>Compare a Nullable like it is NegativeInfinite or PositiveInfinite when null</description>
+		<requireLicenseAcceptance>true</requireLicenseAcceptance>
+		<description>Generic infinity support for all types</description>
 		<RepositoryType>git</RepositoryType>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<IncludeSymbols>true</IncludeSymbols>
-		<PackageTags>nullable;infinity</PackageTags>
+		<PackageTags>infinity;comparable;arithmetic</PackageTags>
 	</PropertyGroup>
 </Project>
