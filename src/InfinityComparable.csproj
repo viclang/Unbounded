@@ -1,13 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+      <TargetFramework>net6.0</TargetFramework>
       <ImplicitUsings>enable</ImplicitUsings>
       <Nullable>enable</Nullable>
-
-      <PackageProjectUrl>https://github.com/viclang/InfinityComparable</PackageProjectUrl>
-      <PackageLicenseUrl>https://raw.githubusercontent.com/viclang/InfinityComparable/master/LICENSE</PackageLicenseUrl>
+	  <id>InfinityComparable</id>
+	  <version>1.0.0</version>
+	  <authors>Victor Langemaire</authors>
+	  <license type="expression">MIT</license>
+	  <projectUrl>https://github.com/viclang/InfinityComparable</projectUrl>
+	  <requireLicenseAcceptance>false</requireLicenseAcceptance>
+	  <description></description>
+	  <releaseNotes></releaseNotes>
+	  <copyright>Copyright 2022</copyright>
       <RepositoryType>git</RepositoryType>
-      <RepositoryUrl>https://github.com/viclang/InfinityComparable</RepositoryUrl>
+      <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+      <PublishRepositoryUrl>true</PublishRepositoryUrl>
+      <IncludeSymbols>true</IncludeSymbols>
   </PropertyGroup>	
 </Project>
