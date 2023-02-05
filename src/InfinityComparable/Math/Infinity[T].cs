@@ -2,7 +2,7 @@
 {
     public static partial class Infinity
     {
-        internal static Infinity<TResult> Add<TLeft, TRight, TResult>(
+        private static Infinity<TResult> Add<TLeft, TRight, TResult>(
             Infinity<TLeft> left,
             Infinity<TRight> right,
             Func<TLeft, TRight, TResult> add)
