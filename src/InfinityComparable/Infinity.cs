@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace InfinityComparable
 {
     public readonly struct Infinity<T> : IEquatable<Infinity<T>>, IComparable<Infinity<T>>, IComparable
-        where T : struct, IComparable<T>, IComparable
+        where T : struct, IEquatable<T>, IComparable<T>, IComparable
     {
         private readonly bool positive;
 
@@ -41,12 +41,12 @@ namespace InfinityComparable
 
         public bool Equals(Infinity<T> other) => IsInfinite
             ? other.IsInfinite && positive.Equals(other.positive)
-            : !other.IsInfinite && Finite.Equals(other.Finite);
+            : !other.IsInfinite && value.Equals(other.value);
 
         public override bool Equals(object? other)
         {
             return other is Infinity<T> otherInfinity && Equals(otherInfinity)
-                || !IsInfinite && Finite.Equals(other)
+                || !IsInfinite && value.Equals(other)
                 || other is double otherDouble && positive.Equals(otherDouble == double.PositiveInfinity)
                 || other is float otherFloat && positive.Equals(otherFloat == float.PositiveInfinity);
         }
@@ -117,22 +117,22 @@ namespace InfinityComparable
 
     public static class Infinity
     {
-        public static Infinity<T> Inf<T>(T? value = null, bool positive = true) where T : struct, IComparable<T>, IComparable
+        public static Infinity<T> Inf<T>(T? value = null, bool positive = true) where T : struct, IEquatable<T>, IComparable<T>, IComparable
             => new(value, positive);
 
-        public static Infinity<T> Inf<T>(bool positive) where T : struct, IComparable<T>, IComparable
+        public static Infinity<T> Inf<T>(bool positive) where T : struct, IEquatable<T>, IComparable<T>, IComparable
             => new(positive);
 
-        public static Infinity<T> Inf<T>() where T : struct, IComparable<T>, IComparable
+        public static Infinity<T> Inf<T>() where T : struct, IEquatable<T>, IComparable<T>, IComparable
             => new();
 
-        public static Infinity<T> ToInfinity<T>(this T? value, bool positive) where T : struct, IComparable<T>, IComparable
+        public static Infinity<T> ToInfinity<T>(this T? value, bool positive) where T : struct, IEquatable<T>, IComparable<T>, IComparable
             => new(value, positive);
 
-        public static Infinity<T> ToPositiveInfinity<T>(this T? value) where T : struct, IComparable<T>, IComparable
+        public static Infinity<T> ToPositiveInfinity<T>(this T? value) where T : struct, IEquatable<T>, IComparable<T>, IComparable
             => new(value, true);
 
-        public static Infinity<T> ToNegativeInfinity<T>(this T? value) where T : struct, IComparable<T>, IComparable
+        public static Infinity<T> ToNegativeInfinity<T>(this T? value) where T : struct, IEquatable<T>, IComparable<T>, IComparable
             => new(value, false);
     }
 }
