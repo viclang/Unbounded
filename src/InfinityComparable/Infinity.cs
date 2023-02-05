@@ -55,13 +55,9 @@ namespace InfinityComparable
 
         public T GetValueOrDefault(T other) => IsInfinity ? other : value;
 
-        public bool Equals(Infinity<T> other) => (State, other.State) switch
-        {
-            (InfinityState.IsFinite, InfinityState.IsFinite) => value.Equals(other.value),
-            (InfinityState.IsInfinity, InfinityState.IsInfinity) => positive.Equals(other.positive),
-            (InfinityState.IsNaN, InfinityState.IsNaN) => true,
-            _ => false,
-        };
+        public bool Equals(Infinity<T> other) => value.Equals(other.value)
+            && State.Equals(other.State)
+            && positive.Equals(other.positive);
 
         public override bool Equals(object? other)
         {
@@ -136,19 +132,14 @@ namespace InfinityComparable
         public static Infinity<T> operator +(Infinity<T> value) => value.IsInfinity ? new(true) : value;
         public static Infinity<T> operator !(Infinity<T> value) => value.IsInfinity ? new(!value.positive) : value;
 
-        public static bool operator ==(Infinity<T> left, Infinity<T> right) => left.IsNaN && right.IsNaN ? false : left.Equals(right);
-        public static bool operator !=(Infinity<T> left, Infinity<T> right) => left.IsNaN && right.IsNaN ? true : !left.Equals(right);
+        public static bool operator ==(Infinity<T> left, Infinity<T> right) => (!left.IsNaN || !right.IsNaN) && left.Equals(right);
+        public static bool operator !=(Infinity<T> left, Infinity<T> right) => left.IsNaN && right.IsNaN || !left.Equals(right);
         public static bool operator >(Infinity<T> left, Infinity<T> right) => left.CompareTo(right) == 1;
         public static bool operator <(Infinity<T> left, Infinity<T> right) => left.CompareTo(right) == -1;
         public static bool operator >=(Infinity<T> left, Infinity<T> right) => left == right || left > right;
         public static bool operator <=(Infinity<T> left, Infinity<T> right) => left == right || left < right;
 
-        public override int GetHashCode() => State switch
-        {
-            InfinityState.IsFinite => value.GetHashCode(),
-            InfinityState.IsInfinity => positive.GetHashCode(),
-            _ => throw new NotSupportedException(),
-        };
+        public override int GetHashCode() => HashCode.Combine(value, positive, State);
 
         public override string? ToString() => ToString(f => f.ToString());
 
