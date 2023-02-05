@@ -48,23 +48,10 @@ namespace InfinityComparable
 
         public override bool Equals(object? other)
         {
-            if (other is Infinity<T> otherInfinity)
-            {
-                return Equals(otherInfinity);
-            }
-            if (HasValue)
-            {
-                return Finite.Equals(other);
-            }
-            if (other is double otherDouble)
-            {
-                return positive.Equals(otherDouble == double.PositiveInfinity);
-            }
-            if (other is float otherFloat)
-            {
-                return positive.Equals(otherFloat == float.PositiveInfinity);
-            }
-            return false;
+            return other is Infinity<T> otherInfinity && Equals(otherInfinity)
+                || HasValue && Finite.Equals(other)
+                || other is double otherDouble && positive.Equals(otherDouble == double.PositiveInfinity)
+                || other is float otherFloat && positive.Equals(otherFloat == float.PositiveInfinity);
         }
 
         public override int GetHashCode() => HasValue
