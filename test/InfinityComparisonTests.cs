@@ -14,10 +14,10 @@ namespace InifinityComparable.Tests
         public static TheoryData<Infinity<int>, Infinity<int>, int> AllCompareToWithExpectedResult =
             new TheoryData<Infinity<int>, Infinity<int>, int>
             {
-                //{ positiveInfinity, positiveInfinity, 0 },
-                //{ negativeInfinity, negativeInfinity, 0 },
-                //{ positiveInfinity, negativeInfinity, 1 },
-                //{ negativeInfinity, positiveInfinity, -1 },
+                { positiveInfinity, positiveInfinity, 0 },
+                { negativeInfinity, negativeInfinity, 0 },
+                { positiveInfinity, negativeInfinity, 1 },
+                { negativeInfinity, positiveInfinity, -1 },
                 { minFinite, negativeMinFinite, 0 },
                 { maxFinite, negativeMaxFinite, 0 },
                 { positiveInfinity, maxFinite, 1 },
