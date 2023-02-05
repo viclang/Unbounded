@@ -1,7 +1,10 @@
-﻿namespace InfinityComparable
+﻿using System.Diagnostics.Contracts;
+
+namespace InfinityComparable
 {
     public static partial class Infinity
     {
+        [Pure]
         private static Infinity<TResult> Add<TLeft, TRight, TResult>(
             Infinity<TLeft> left,
             Infinity<TRight> right,
@@ -18,6 +21,8 @@
                 _ => new()
             };
 
+
+        [Pure]
         private static Infinity<TResult> Substract<TLeft, TRight, TResult>(
             Infinity<TLeft> left,
             Infinity<TRight> right,
@@ -33,6 +38,8 @@
                 _ => new()
             };
 
+
+        [Pure]
         private static Infinity<TResult> Multiply<TLeft, TRight, TResult>(
             Infinity<TLeft> left,
             Infinity<TRight> right,
@@ -50,6 +57,8 @@
                 _ => new()
             };
 
+
+        [Pure]
         private static Infinity<TResult> Divide<TLeft, TRight, TResult>(
             Infinity<TLeft> left,
             Infinity<TRight> right,

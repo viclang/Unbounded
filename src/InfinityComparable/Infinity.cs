@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
 
 namespace InfinityComparable
 {
@@ -8,18 +9,22 @@ namespace InfinityComparable
         internal readonly T value;
 
         internal readonly bool positive;
-
+        
         public readonly InfinityState State;
-
+        
+        [Pure]
         public T? Finite => IsFinite ? value : null;
 
+        [Pure]
         public bool IsNaN => State == InfinityState.IsNaN;
 
-        [MemberNotNullWhen(true, nameof(Finite))]
+        [Pure, MemberNotNullWhen(true, nameof(Finite))]
         public bool IsFinite => State == InfinityState.IsFinite;
 
+        [Pure]
         public bool IsInfinity => State == InfinityState.IsInfinity;
 
+        [Pure]
         public Infinity()
         {
             this.State = InfinityState.IsNaN;
@@ -27,6 +32,7 @@ namespace InfinityComparable
             this.positive = default;
         }
 
+        [Pure]
         public Infinity(T value)
         {
             this.State = InfinityState.IsFinite;
@@ -34,6 +40,7 @@ namespace InfinityComparable
             this.positive = default;
         }
 
+        [Pure]
         public Infinity(bool positive)
         {
             this.State = InfinityState.IsInfinity;
@@ -47,18 +54,24 @@ namespace InfinityComparable
 
         public static readonly Infinity<T> NaN = new();
 
+        [Pure]
         public bool IsPositiveInfinity() => IsInfinity && positive;
 
+        [Pure]
         public bool IsNegativeInfinity() => IsInfinity && !positive;
 
+        [Pure]
         public T GetValueOrDefault() => value;
 
+        [Pure]
         public T GetValueOrDefault(T other) => IsInfinity ? other : value;
 
+        [Pure]
         public bool Equals(Infinity<T> other) => value.Equals(other.value)
             && State.Equals(other.State)
             && positive.Equals(other.positive);
 
+        [Pure]
         public override bool Equals(object? other)
         {
             if (other is Infinity<T> otherInfinity)
@@ -86,6 +99,7 @@ namespace InfinityComparable
             }
         }
 
+        [Pure]
         public int CompareTo(Infinity<T> other) => (State, other.State) switch
         {
             (InfinityState.IsFinite, InfinityState.IsFinite) => value.CompareTo(other.value),
@@ -98,6 +112,7 @@ namespace InfinityComparable
             _ => throw new NotSupportedException()
         };
 
+        [Pure]
         public int CompareTo(object? other)
         {
             if (other is Infinity<T> otherInfinity)
@@ -125,24 +140,46 @@ namespace InfinityComparable
             }
         }
 
+        [Pure]
         public static implicit operator Infinity<T>(T? value) => value.HasValue ? new(value.Value) : new(false);
+
+        [Pure]
         public static explicit operator T?(Infinity<T> value) => value.Finite;
 
+        [Pure]
         public static Infinity<T> operator -(Infinity<T> value) => value.IsInfinity ? new(false) : value;
+
+        [Pure]
         public static Infinity<T> operator +(Infinity<T> value) => value.IsInfinity ? new(true) : value;
+
+        [Pure]
         public static Infinity<T> operator !(Infinity<T> value) => value.IsInfinity ? new(!value.positive) : value;
 
+        [Pure]
         public static bool operator ==(Infinity<T> left, Infinity<T> right) => (!left.IsNaN || !right.IsNaN) && left.Equals(right);
+
+        [Pure]
         public static bool operator !=(Infinity<T> left, Infinity<T> right) => left.IsNaN && right.IsNaN || !left.Equals(right);
+
+        [Pure]
         public static bool operator >(Infinity<T> left, Infinity<T> right) => left.CompareTo(right) == 1;
+
+        [Pure]
         public static bool operator <(Infinity<T> left, Infinity<T> right) => left.CompareTo(right) == -1;
+
+        [Pure]
         public static bool operator >=(Infinity<T> left, Infinity<T> right) => left == right || left > right;
+
+        [Pure]
         public static bool operator <=(Infinity<T> left, Infinity<T> right) => left == right || left < right;
 
+        [Pure]
         public override int GetHashCode() => HashCode.Combine(value, positive, State);
 
+        [Pure]
         public override string? ToString() => ToString(f => f.ToString());
 
+        [Pure]
         public string? ToString(Func<T, string?> finiteToString) => State switch
         {
             InfinityState.IsFinite => finiteToString(value),
@@ -151,6 +188,7 @@ namespace InfinityComparable
             _ => throw new NotSupportedException()
         };
 
+        [Pure]
         public void Deconstruct(out InfinityState state, out T? value, out bool positive)
         {
             state = State;

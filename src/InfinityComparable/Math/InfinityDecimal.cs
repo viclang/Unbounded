@@ -1,16 +1,22 @@
-﻿namespace InfinityComparable
+﻿using System.Diagnostics.Contracts;
+
+namespace InfinityComparable
 {
     public static partial class Infinity
     {
+        [Pure]
         public static Infinity<decimal> Add(this Infinity<decimal> left, Infinity<decimal> right)
             => Add(left, right, (x, y) => x + y);
 
+        [Pure]
         public static Infinity<decimal> Substract(this Infinity<decimal> left, Infinity<decimal> right)
             => Substract(left, right, (x, y) => x - y);
 
+        [Pure]
         public static Infinity<decimal> Divide(this Infinity<decimal> left, Infinity<decimal> right)
             => Divide(left, right, (x, y) => x / y);
 
+        [Pure]
         public static Infinity<decimal> Multiply(this Infinity<decimal> left, Infinity<decimal> right)
             => Multiply(left, right, (x, y) => x * y);
     }
