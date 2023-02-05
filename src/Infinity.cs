@@ -9,7 +9,7 @@ namespace InfinityComparable
         public T? Finite { get; }
         public bool IsInfinite => Finite is null;
 
-        public Infinity() : this(null, false)
+        public Infinity() : this(null, true)
         {
         }
 
@@ -151,6 +151,12 @@ namespace InfinityComparable
         public static bool operator <=(Infinity<T> left, Infinity<T> right)
         {
             return left == right || left < right;
+        }
+
+        public void Deconstruct(out T? finite, out bool positive)
+        {
+            finite = Finite;
+            positive = this.positive;
         }
     }
 
