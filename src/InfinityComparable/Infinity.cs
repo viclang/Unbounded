@@ -6,6 +6,7 @@ namespace InfinityComparable
     public readonly struct Infinity<T> : IEquatable<Infinity<T>>, IComparable<Infinity<T>>, IComparable
         where T : struct, IEquatable<T>, IComparable<T>, IComparable
     {
+        private const string infinityToString = "Infinity";
         private readonly bool positive;
 
         [MemberNotNullWhen(false, nameof(Finite))]
@@ -89,9 +90,15 @@ namespace InfinityComparable
             return value.CompareTo(other);
         }
 
-        public override string ToString() => IsInfinite
-            ? positive ? "Infinity" : "-Infinity"
-            : string.Empty + Finite.ToString();
+        public override string? ToString() => ToString(infinityToString, x => x.ToString());
+
+        public string? ToString(Func<T, string?> valueToString) => ToString(infinityToString, valueToString);
+
+        public string? ToString(string infinityToString) => ToString(infinityToString, x => x.ToString());
+
+        public string? ToString(string infinityToString, Func<T, string?> valueToString) => IsInfinite
+            ? positive ? infinityToString : "-" + infinityToString
+            : valueToString(value);
 
         public static implicit operator Infinity<T>(ValueTuple<T?, bool> value) => new(value.Item1, value.Item2);
         public static implicit operator Infinity<T>(T? value) => new(value, true);
