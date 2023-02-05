@@ -1,46 +1,51 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace InfinityComparable
 {
     public readonly struct Infinity<T> : IEquatable<Infinity<T>>, IComparable<Infinity<T>>, IComparable
         where T : struct, IComparable<T>, IComparable
     {
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private readonly T _value;
-        public T Value => IsInfinite ? throw new InvalidOperationException("Infinity object must have a value.") : _value;
-        
         private readonly bool positive;
-        public bool IsInfinite { get; }
 
-        public static readonly Infinity<T> NegativeInfinity = new Infinity<T>(default, true, false);
-        public static readonly Infinity<T> PositiveInfinity = new Infinity<T>(default, true, true);
+        [MemberNotNullWhen(true, nameof(Finite))]
+        public bool HasValue { get; }
 
-        public Infinity() : this(default, true, true)
+        [MemberNotNullWhen(false, nameof(Finite))]
+        public bool IsInfinite() => !HasValue;
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private readonly T value;
+        public T? Finite => HasValue ? value : null;
+
+        public static readonly Infinity<T> NegativeInfinity = new(default, false, false);
+        public static readonly Infinity<T> PositiveInfinity = new(default, false, true);
+
+        public Infinity() : this(default, false, true)
         {
         }
 
-        public Infinity(bool positive) : this(default, true, positive)
+        public Infinity(bool positive) : this(default, false, positive)
         {
         }
 
-        public Infinity(T? value, bool positive) : this(value.GetValueOrDefault(), value is null, positive)
+        public Infinity(T? value, bool positive) : this(value.GetValueOrDefault(), value.HasValue, positive)
         {
         }
 
-        internal Infinity(T value, bool isInfinite, bool positive)
+        internal Infinity(T value, bool hasValue, bool positive)
         {
-            _value = value;
-            IsInfinite = isInfinite;
+            this.value = value;
+            HasValue = hasValue;
             this.positive = positive;
         }
 
-        public T? ToNullable() => (T?)this;
-        public T GetValueOrDefault() => !IsInfinite ? Value : default;
-        public T GetValueOrDefault(T defaultValue) => !IsInfinite ? Value : defaultValue;
+        public T ValueOrDefault() => value;
+        public T ValueOr(T other) => HasValue ? value : other;
 
-        public bool Equals(Infinity<T> other) => !IsInfinite
-            ? !other.IsInfinite && Value.Equals(other.Value)
-            : other.IsInfinite && positive.Equals(other.positive);
+        public bool Equals(Infinity<T> other) => HasValue
+            ? other.HasValue && Finite.Equals(other.Finite)
+            : !other.HasValue && positive.Equals(other.positive);
 
         public override bool Equals(object? other)
         {
@@ -48,9 +53,9 @@ namespace InfinityComparable
             {
                 return Equals(infinity);
             }
-            if (!IsInfinite)
+            if (HasValue)
             {
-                return Value.Equals(other);
+                return Finite.Equals(other);
             }
             if (other is double otherDouble)
             {
@@ -63,55 +68,55 @@ namespace InfinityComparable
             return false;
         }
 
-        public override int GetHashCode() => !IsInfinite
-            ? Value.GetHashCode()
+        public override int GetHashCode() => HasValue
+            ? Finite.GetHashCode()
             : positive ? 1 : -1;
 
         public int CompareTo(Infinity<T> other)
         {
-            if(!IsInfinite)
+            if(HasValue)
             {
-                return !other.IsInfinite
-                    ? Value.CompareTo(other.Value)
+                return other.HasValue
+                    ? value.CompareTo(other.value)
                     : other.positive ? -1 : 1;
             }
-            return other.IsInfinite
-                ? positive.CompareTo(other.positive)
-                : positive ? 1 : -1;
+            return other.HasValue
+                ? positive ? 1 : -1
+                : positive.CompareTo(other.positive);
         }
 
         public int CompareTo(object? other)
         {
-            if (other is Infinity<T>)
+            if (other is Infinity<T> otherInfinity)
             {
-                return CompareTo((Infinity<T>)other);
+                return CompareTo(otherInfinity);
             }
-            if (!IsInfinite)
+            if (HasValue)
             {
-                return Value.CompareTo(other);
+                return value.CompareTo(other);
             }
-            if (other is double)
+            if (other is double otherDouble)
             {
-                return positive.CompareTo((double)other == double.PositiveInfinity);
+                return positive.CompareTo(otherDouble == double.PositiveInfinity);
             }
-            if (other is float)
+            if (other is float otherFloat)
             {
-                return positive.CompareTo((float)other == double.PositiveInfinity);
+                return positive.CompareTo(otherFloat == double.PositiveInfinity);
             }
             return positive ? 1 : -1;
         }
 
-        public override string ToString() => IsInfinite
-            ? positive ? "+∞" : "-∞"
-            : string.Empty + Value.ToString();
+        public override string ToString() => HasValue
+            ? string.Empty + Finite.ToString()
+            : positive ? "Infinity" : "-Infinity";
 
-        public static implicit operator Infinity<T>(ValueTuple<T?, bool> value) => new Infinity<T>(value.Item1, value.Item2);
-        public static implicit operator Infinity<T>(T? value) => new Infinity<T>(value, true);
-        public static implicit operator T?(Infinity<T> value) => !value.IsInfinite ? value.Value : null;
-        public static bool operator ==(Infinity<T> left, T? right) => left.ToNullable().Equals(right);
-        public static bool operator !=(Infinity<T> left, T? right) => left.ToNullable().Equals(right);
-        public static bool operator ==(T? left, Infinity<T> right) => left.Equals(right.ToNullable());
-        public static bool operator !=(T? left, Infinity<T> right) => left.Equals(right.ToNullable());
+        public static implicit operator Infinity<T>(ValueTuple<T?, bool> value) => new(value.Item1, value.Item2);
+        public static implicit operator Infinity<T>(T? value) => new(value, true);
+        public static implicit operator T?(Infinity<T> value) => value.Finite;
+
+        public static Infinity<T> operator -(Infinity<T> value) => new(value.value, value.HasValue, false);
+        public static Infinity<T> operator +(Infinity<T> value) => new(value.value, value.HasValue, true);
+        public static Infinity<T> operator !(Infinity<T> value) => new(value.value, value.HasValue, !value.positive);
 
         public static bool operator ==(Infinity<T> left, Infinity<T> right) => left.Equals(right);
         public static bool operator !=(Infinity<T> left, Infinity<T> right) => !left.Equals(right);
@@ -120,13 +125,9 @@ namespace InfinityComparable
         public static bool operator >=(Infinity<T> left, Infinity<T> right) => left == right || left > right;
         public static bool operator <=(Infinity<T> left, Infinity<T> right) => left == right || left < right;
 
-        public static Infinity<T> operator -(Infinity<T> value) => new Infinity<T>(value.GetValueOrDefault(), value.IsInfinite, false);
-        public static Infinity<T> operator +(Infinity<T> value) => new Infinity<T>(value.GetValueOrDefault(), value.IsInfinite, true);
-        public static Infinity<T> operator !(Infinity<T> value) => new Infinity<T>(value.GetValueOrDefault(), value.IsInfinite, !value.positive);
-        
         public void Deconstruct(out T? value, out bool positive)
         {
-            value = ToNullable();
+            value = Finite;
             positive = this.positive;
         }
     }
@@ -134,21 +135,21 @@ namespace InfinityComparable
     public static class Infinity
     {
         public static Infinity<T> Inf<T>(T? value = null, bool positive = true) where T : struct, IComparable<T>, IComparable
-            => new Infinity<T>(value, positive);
+            => new(value, positive);
 
         public static Infinity<T> Inf<T>(bool positive) where T : struct, IComparable<T>, IComparable
-            => new Infinity<T>(positive);
+            => new(positive);
 
         public static Infinity<T> Inf<T>() where T : struct, IComparable<T>, IComparable
-            => new Infinity<T>();
+            => new();
 
         public static Infinity<T> ToInfinity<T>(this T? value, bool positive) where T : struct, IComparable<T>, IComparable
-            => new Infinity<T>(value, positive);
+            => new(value, positive);
 
         public static Infinity<T> ToPositiveInfinity<T>(this T? value) where T : struct, IComparable<T>, IComparable
-            => new Infinity<T>(value, true);
+            => new(value, true);
 
         public static Infinity<T> ToNegativeInfinity<T>(this T? value) where T : struct, IComparable<T>, IComparable
-            => new Infinity<T>(value, false);
+            => new(value, false);
     }
 }
