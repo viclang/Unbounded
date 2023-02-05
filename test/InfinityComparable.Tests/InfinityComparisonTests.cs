@@ -39,25 +39,25 @@ namespace InifinityComparable.Tests
 
         [Theory]
         [MemberData(nameof(AllCompareToWithExpectedResult))]
-        public void AllCompareTo_ShouldGiveExpectedResult(Infinity<int> a, Infinity<int> b, int expectedResult)
+        public void AllCompareTo_ShouldGiveExpectedResult(Infinity<int> a, Infinity<int> b, int expected)
         {
             // Act
-            var result = a.CompareTo(b);
+            var actual = a.CompareTo(b);
 
             // Assert
-            result.Should().Be(expectedResult);
+            actual.Should().Be(expected);
         }
 
         [Theory]
         [MemberData(nameof(AllCompareToWithExpectedResult))]
         [MemberData(nameof(AllCompareToObjectWithExpectedResult))]
-        public void AllCompareToObject_ShouldGiveExpectedResult(Infinity<int> a, object? b, int expectedResult)
+        public void AllCompareToObject_ShouldGiveExpectedResult(Infinity<int> a, object? b, int expected)
         {
             // Act
-            var result = a.CompareTo(b);
+            var actual = a.CompareTo(b);
 
             // Assert
-            result.Should().Be(expectedResult);
+            actual.Should().Be(expected);
         }
 
         [Theory]
@@ -65,10 +65,10 @@ namespace InifinityComparable.Tests
         public void AllEquals_ShouldGiveExpectedResult(Infinity<int> a, Infinity<int> b, int compareResult)
         {
             // Act
-            var result = a.Equals(b);
+            var actual = a.Equals(b);
 
             // Assert
-            result.Should().Be(compareResult == 0);
+            actual.Should().Be(compareResult == 0);
         }
 
         [Theory]
@@ -77,10 +77,10 @@ namespace InifinityComparable.Tests
         public void AllEqualsObject_ShouldGiveExpectedResult(Infinity<int> a, object? b, int compareResult)
         {
             // Act
-            var result = a.Equals(b);
+            var actual = a.Equals(b);
 
             // Assert
-            result.Should().Be(compareResult == 0);
+            actual.Should().Be(compareResult == 0);
         }
 
         [Theory]
@@ -88,10 +88,10 @@ namespace InifinityComparable.Tests
         public void GreaterThan_ShouldGiveExpectedResult(Infinity<int> a, Infinity<int> b, int compareResult)
         {
             // Act
-            var result = a > b;
+            var actual = a > b;
 
             // Assert
-            result.Should().Be(compareResult == 1);
+            actual.Should().Be(compareResult == 1);
         }
 
         [Theory]
@@ -99,10 +99,10 @@ namespace InifinityComparable.Tests
         public void SmallerThan_ShouldGiveExpectedResult(Infinity<int> a, Infinity<int> b, int compareResult)
         {
             // Act
-            var result = a < b;
+            var actual = a < b;
 
             // Assert
-            result.Should().Be(compareResult == -1);
+            actual.Should().Be(compareResult == -1);
         }
 
         [Theory]
@@ -110,10 +110,10 @@ namespace InifinityComparable.Tests
         public void GreaterThanOrEquals_ShouldGiveExpectedResult(Infinity<int> a, Infinity<int> b, int compareResult)
         {
             // Act
-            var result = a >= b;
+            var actual = a >= b;
 
             // Assert
-            result.Should().Be(compareResult >= 0);
+            actual.Should().Be(compareResult >= 0);
         }
 
         [Theory]
@@ -121,10 +121,10 @@ namespace InifinityComparable.Tests
         public void SmallerThanOrEquals_ShouldGiveExpectedResult(Infinity<int> a, Infinity<int> b, int compareResult)
         {
             // Act
-            var result = a <= b;
+            var actual = a <= b;
 
             // Assert
-            result.Should().Be(compareResult <= 0);
+            actual.Should().Be(compareResult <= 0);
         }
     }
 }
