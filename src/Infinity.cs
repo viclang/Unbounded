@@ -107,7 +107,7 @@ namespace InfinityComparable
 
         public static implicit operator Infinity<T>(ValueTuple<T?, bool> value) => new Infinity<T>(value.Item1, value.Item2);
         public static implicit operator Infinity<T>(T? value) => new Infinity<T>(value, true);
-        public static explicit operator T?(Infinity<T> value) => !value.IsInfinite ? value.Value : null;
+        public static implicit operator T?(Infinity<T> value) => !value.IsInfinite ? value.Value : null;
         public static bool operator ==(Infinity<T> left, T? right) => left.ToNullable().Equals(right);
         public static bool operator !=(Infinity<T> left, T? right) => left.ToNullable().Equals(right);
         public static bool operator ==(T? left, Infinity<T> right) => left.Equals(right.ToNullable());

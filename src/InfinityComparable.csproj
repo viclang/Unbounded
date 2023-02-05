@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<version>1.1.0</version>
+		<version>1.1.1</version>
 		<Nullable>enable</Nullable>
 		<id>InfinityComparable</id>
 		<authors>Victor Langemaire</authors>
