@@ -17,6 +17,8 @@ namespace InfinityComparable
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly T value;
         public T? Finite => HasValue ? value : null;
+        public T FiniteOrDefault() => value;
+        public T FiniteOr(T other) => HasValue ? value : other;
 
         public static readonly Infinity<T> NegativeInfinity = new(default, false, false);
         public static readonly Infinity<T> PositiveInfinity = new(default, false, true);
@@ -40,18 +42,15 @@ namespace InfinityComparable
             this.positive = positive;
         }
 
-        public T ValueOrDefault() => value;
-        public T ValueOr(T other) => HasValue ? value : other;
-
         public bool Equals(Infinity<T> other) => HasValue
             ? other.HasValue && Finite.Equals(other.Finite)
             : !other.HasValue && positive.Equals(other.positive);
 
         public override bool Equals(object? other)
         {
-            if (other is Infinity<T> infinity)
+            if (other is Infinity<T> otherInfinity)
             {
-                return Equals(infinity);
+                return Equals(otherInfinity);
             }
             if (HasValue)
             {
