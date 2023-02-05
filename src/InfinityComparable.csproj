@@ -4,13 +4,10 @@
     <TargetFramework>net6.0</TargetFramework>
       <ImplicitUsings>enable</ImplicitUsings>
       <Nullable>enable</Nullable>
-  </PropertyGroup>
 
-    <PropertyGroup>
-        <PackageLicenseFile>../LICENSE</PackageLicenseFile>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <None Include="../LICENSE" Pack="true" PackagePath=""/>
-    </ItemGroup>
+      <PackageProjectUrl>https://github.com/viclang/InfinityComparable</PackageProjectUrl>
+      <PackageLicenseUrl>https://raw.githubusercontent.com/viclang/InfinityComparable/master/LICENSE</PackageLicenseUrl>
+      <RepositoryType>git</RepositoryType>
+      <RepositoryUrl>https://github.com/viclang/InfinityComparable</RepositoryUrl>
+  </PropertyGroup>	
 </Project>
