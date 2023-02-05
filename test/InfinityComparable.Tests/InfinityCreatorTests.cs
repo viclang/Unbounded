@@ -26,6 +26,7 @@
         [MemberData(nameof(AllCreatorsShouldBeEqual))]
         public void InfinityCreators_ShouldBeEqualToExpectedResult(Infinity<int> result, Infinity<int> expectedResult)
         {
+            
             result.Should().Be(expectedResult);
         }
     }
