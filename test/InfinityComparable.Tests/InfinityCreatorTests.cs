@@ -24,7 +24,7 @@
 
         [Theory]
         [MemberData(nameof(AllCreatorsShouldBeEqual))]
-        public void InfinityCreators_ShouldBeEqualToExpectedResult(Infinity<int> actual, Infinity<int> expected)
+        public void InfinityCreators_ShouldBeExpected(Infinity<int> actual, Infinity<int> expected)
         {
             actual.Should().Be(expected);
         }
