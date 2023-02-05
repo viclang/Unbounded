@@ -1,5 +1,5 @@
 # InfinityComparable
-Compare a Nullable like it is NegativeInfinite or PositiveInfinite when null
+Generic infinity support for all types
 
 ### Download & Install
 **Nuget Package [InfinityComparable](https://www.nuget.org/packages/InfinityComparable/)**
