@@ -1,34 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics.Contracts;
 
 namespace InfinityComparable
 {
     public static partial class Infinity
     {
-        private const string negativeInfinityString = "-Infinity";
-        private const string positiveInfinityString = "Infinity";
-        internal static string InfinityToString(bool positive) => positive ? positiveInfinityString : negativeInfinityString;
-
+        internal const string NegativeInfinityString = "-Infinity";
+        internal const string PositiveInfinityString = "Infinity";
+        
         [Pure]
         public static Infinity<T> Parse<T>(string value)
             where T : struct, IEquatable<T>, IComparable<T>, IComparable
-            => Parse(value, s => (T)Convert.ChangeType(s, typeof(T)), Inf => Inf ? positiveInfinityString : negativeInfinityString);
+            => Parse(value, s => (T)Convert.ChangeType(s, typeof(T)));
 
         [Pure]
-        public static Infinity<T> Parse<T>(string value, Func<string, T> finiteParser, Func<bool, string> infinityParser)
+        public static Infinity<T> Parse<T>(string value, Func<string, T> finiteParser)
             where T : struct, IEquatable<T>, IComparable<T>, IComparable
         {
-            if (string.IsNullOrEmpty(value) || value == infinityParser(true))
+            if (string.IsNullOrEmpty(value) || value.Equals(PositiveInfinityString))
             {
                 return Infinity<T>.PositiveInfinity;
             }
             else
             {
-                return value == infinityParser(false)
+                return value.Equals(NegativeInfinityString)
                     ? Infinity<T>.NegativeInfinity
                     : finiteParser(value);
             }
@@ -37,15 +31,15 @@ namespace InfinityComparable
         [Pure]
         public static bool TryParse<T>(string value, out Infinity<T>? result)
             where T : struct, IEquatable<T>, IComparable<T>, IComparable
-            => TryParse(value, s => (T)Convert.ChangeType(s, typeof(T)), InfinityToString, out result);
+            => TryParse(value, s => (T)Convert.ChangeType(s, typeof(T)), out result);
 
         [Pure]
-        public static bool TryParse<T>(string value, Func<string, T> finiteParser, Func<bool, string> infinityParser, out Infinity<T>? result)
+        public static bool TryParse<T>(string value, Func<string, T> finiteParser, out Infinity<T>? result)
             where T : struct, IEquatable<T>, IComparable<T>, IComparable
         {
             try
             {
-                result = Parse(value, finiteParser, infinityParser);
+                result = Parse(value, finiteParser);
                 return true;
             }
             catch
