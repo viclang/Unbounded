@@ -130,9 +130,6 @@ namespace InfinityComparable
         public static Infinity<T> Inf<T>(bool positive) where T : struct, IEquatable<T>, IComparable<T>, IComparable
             => new(positive);
 
-        public static Infinity<T> Inf<T>() where T : struct, IEquatable<T>, IComparable<T>, IComparable
-            => new();
-
         public static Infinity<T> ToInfinity<T>(this T? value, bool positive) where T : struct, IEquatable<T>, IComparable<T>, IComparable
             => new(value, positive);
 
