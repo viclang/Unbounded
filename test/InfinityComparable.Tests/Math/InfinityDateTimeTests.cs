@@ -1,10 +1,10 @@
-﻿namespace InfinityComparable.Tests
+﻿namespace UnboundedType.Tests
 {
     public class InfinityDateTimeTests : InfinityDateTimeTestsBase
     {
         [Theory]
         [MemberData(nameof(AddData))]
-        public void DateTime_Add_ReturnsExpected(Infinity<DateTime> left, Infinity<TimeSpan> right, Infinity<DateTime> expected)
+        public void DateTime_Add_ReturnsExpected(Unbounded<DateTime> left, Unbounded<TimeSpan> right, Unbounded<DateTime> expected)
         {
             var actual = left.Add(right);
 
@@ -13,7 +13,7 @@
 
         [Theory]
         [MemberData(nameof(SubstractTimeSpanData))]
-        public void DateTime_SubstractTimeSpan_ReturnsExpected(Infinity<DateTime> left, Infinity<TimeSpan> right, Infinity<DateTime> expected)
+        public void DateTime_SubstractTimeSpan_ReturnsExpected(Unbounded<DateTime> left, Unbounded<TimeSpan> right, Unbounded<DateTime> expected)
         {
             var actual = left.Substract(right);
 
@@ -22,7 +22,7 @@
 
         [Theory]
         [MemberData(nameof(AddMillisecondsData))]
-        public void DateTime_AddMilliseconds_ReturnsExpected(Infinity<DateTime> left, Infinity<double> right, Infinity<DateTime> expected)
+        public void DateTime_AddMilliseconds_ReturnsExpected(Unbounded<DateTime> left, Unbounded<double> right, Unbounded<DateTime> expected)
         {
             var actual = left.AddMilliseconds(right);
 
@@ -31,7 +31,7 @@
 
         [Theory]
         [MemberData(nameof(AddSecondsData))]
-        public void DateTime_AddSeconds_ReturnsExpected(Infinity<DateTime> left, Infinity<double> right, Infinity<DateTime> expected)
+        public void DateTime_AddSeconds_ReturnsExpected(Unbounded<DateTime> left, Unbounded<double> right, Unbounded<DateTime> expected)
         {
             var actual = left.AddSeconds(right);
 
@@ -40,7 +40,7 @@
 
         [Theory]
         [MemberData(nameof(AddMinutesData))]
-        public void DateTime_AddMinutes_ReturnsExpected(Infinity<DateTime> left, Infinity<double> right, Infinity<DateTime> expected)
+        public void DateTime_AddMinutes_ReturnsExpected(Unbounded<DateTime> left, Unbounded<double> right, Unbounded<DateTime> expected)
         {
             var actual = left.AddMinutes(right);
 
@@ -49,7 +49,7 @@
 
         [Theory]
         [MemberData(nameof(AddHoursData))]
-        public void DateTime_AddHours_ReturnsExpected(Infinity<DateTime> left, Infinity<double> right, Infinity<DateTime> expected)
+        public void DateTime_AddHours_ReturnsExpected(Unbounded<DateTime> left, Unbounded<double> right, Unbounded<DateTime> expected)
         {
             var actual = left.AddHours(right);
 
@@ -58,7 +58,7 @@
 
         [Theory]
         [MemberData(nameof(AddDaysData))]
-        public void DateTime_AddDays_ReturnsExpected(Infinity<DateTime> left, Infinity<double> right, Infinity<DateTime> expected)
+        public void DateTime_AddDays_ReturnsExpected(Unbounded<DateTime> left, Unbounded<double> right, Unbounded<DateTime> expected)
         {
             var actual = left.AddDays(right);
 
@@ -67,7 +67,7 @@
 
         [Theory]
         [MemberData(nameof(AddMonthsData))]
-        public void DateTime_AddMonths_ReturnsExpected(Infinity<DateTime> left, Infinity<int> right, Infinity<DateTime> expected)
+        public void DateTime_AddMonths_ReturnsExpected(Unbounded<DateTime> left, Unbounded<int> right, Unbounded<DateTime> expected)
         {
             var actual = left.AddMonths(right);
 
@@ -76,7 +76,7 @@
 
         [Theory]
         [MemberData(nameof(AddYearsData))]
-        public void DateTime_AddYears_ReturnsExpected(Infinity<DateTime> left, Infinity<int> right, Infinity<DateTime> expected)
+        public void DateTime_AddYears_ReturnsExpected(Unbounded<DateTime> left, Unbounded<int> right, Unbounded<DateTime> expected)
         {
             var actual = left.AddYears(right);
 
@@ -85,7 +85,7 @@
 
         [Theory]
         [MemberData(nameof(AddTicksData))]
-        public void DateTime_AddTicks_ReturnsExpected(Infinity<DateTime> left, Infinity<long> right, Infinity<DateTime> expected)
+        public void DateTime_AddTicks_ReturnsExpected(Unbounded<DateTime> left, Unbounded<long> right, Unbounded<DateTime> expected)
         {
             var actual = left.AddTicks(right);
 
@@ -94,7 +94,7 @@
 
         [Theory]
         [MemberData(nameof(SubstractDateTimeData))]
-        public void DateTime_SubstractDateTime_ReturnsExpected(Infinity<DateTime> left, Infinity<DateTime> right, Infinity<TimeSpan> expected)
+        public void DateTime_SubstractDateTime_ReturnsExpected(Unbounded<DateTime> left, Unbounded<DateTime> right, Unbounded<TimeSpan> expected)
         {
             var actual = left.Substract(right);
 

@@ -1,6 +1,6 @@
-﻿using InfinityComparable.Tests.Factories;
+﻿using UnboundedType.Tests.Factories;
 
-namespace InfinityComparable.Tests
+namespace UnboundedType.Tests
 {
     public abstract class InfinityDateTimeTestsBase
     {
@@ -9,37 +9,37 @@ namespace InfinityComparable.Tests
         private static readonly TimeSpan _rightTimeSpan = TimeSpan.FromDays(1);
         private static readonly double _rightDouble = 1;
 
-        public static TheoryData<Infinity<DateTime>, Infinity<TimeSpan>, Infinity<DateTime>> AddData =
+        public static TheoryData<Unbounded<DateTime>, Unbounded<TimeSpan>, Unbounded<DateTime>> AddData =
             InfinityMathDataFactory.CreateAddData(_left, _rightTimeSpan, _left + _rightTimeSpan);
 
-        public static TheoryData<Infinity<DateTime>, Infinity<double>, Infinity<DateTime>> AddDaysData =
+        public static TheoryData<Unbounded<DateTime>, Unbounded<double>, Unbounded<DateTime>> AddDaysData =
             InfinityMathDataFactory.CreateAddData(_left, _rightDouble, _left.AddDays(_rightDouble));
 
-        public static TheoryData<Infinity<DateTime>, Infinity<double>, Infinity<DateTime>> AddHoursData =
+        public static TheoryData<Unbounded<DateTime>, Unbounded<double>, Unbounded<DateTime>> AddHoursData =
             InfinityMathDataFactory.CreateAddData(_left, _rightDouble, _left.AddHours(_rightDouble));
 
-        public static TheoryData<Infinity<DateTime>, Infinity<double>, Infinity<DateTime>> AddMillisecondsData =
+        public static TheoryData<Unbounded<DateTime>, Unbounded<double>, Unbounded<DateTime>> AddMillisecondsData =
             InfinityMathDataFactory.CreateAddData(_left, _rightDouble, _left.AddMilliseconds(_rightDouble));
 
-        public static TheoryData<Infinity<DateTime>, Infinity<double>, Infinity<DateTime>> AddMinutesData =
+        public static TheoryData<Unbounded<DateTime>, Unbounded<double>, Unbounded<DateTime>> AddMinutesData =
             InfinityMathDataFactory.CreateAddData(_left, _rightDouble, _left.AddMinutes(_rightDouble));
 
-        public static TheoryData<Infinity<DateTime>, Infinity<int>, Infinity<DateTime>> AddMonthsData =
+        public static TheoryData<Unbounded<DateTime>, Unbounded<int>, Unbounded<DateTime>> AddMonthsData =
             InfinityMathDataFactory.CreateAddData(_left, (int)_rightDouble, _left.AddMonths((int)_rightDouble));
 
-        public static TheoryData<Infinity<DateTime>, Infinity<double>, Infinity<DateTime>> AddSecondsData =
+        public static TheoryData<Unbounded<DateTime>, Unbounded<double>, Unbounded<DateTime>> AddSecondsData =
             InfinityMathDataFactory.CreateAddData(_left, _rightDouble, _left.AddSeconds(_rightDouble));
 
-        public static TheoryData<Infinity<DateTime>, Infinity<long>, Infinity<DateTime>> AddTicksData =
+        public static TheoryData<Unbounded<DateTime>, Unbounded<long>, Unbounded<DateTime>> AddTicksData =
             InfinityMathDataFactory.CreateAddData(_left, (long)_rightDouble, _left.AddTicks((long)_rightDouble));
 
-        public static TheoryData<Infinity<DateTime>, Infinity<int>, Infinity<DateTime>> AddYearsData =
+        public static TheoryData<Unbounded<DateTime>, Unbounded<int>, Unbounded<DateTime>> AddYearsData =
             InfinityMathDataFactory.CreateAddData(_left, (int)_rightDouble, _left.AddYears((int)_rightDouble));
 
-        public static TheoryData<Infinity<DateTime>, Infinity<DateTime>, Infinity<TimeSpan>> SubstractDateTimeData =
+        public static TheoryData<Unbounded<DateTime>, Unbounded<DateTime>, Unbounded<TimeSpan>> SubstractDateTimeData =
             InfinityMathDataFactory.CreateSubstractData(_left, _rightDateTime, _left - _rightDateTime);
 
-        public static TheoryData<Infinity<DateTime>, Infinity<TimeSpan>, Infinity<DateTime>> SubstractTimeSpanData =
+        public static TheoryData<Unbounded<DateTime>, Unbounded<TimeSpan>, Unbounded<DateTime>> SubstractTimeSpanData =
             InfinityMathDataFactory.CreateSubstractData(_left, _rightTimeSpan, _left - _rightTimeSpan);
     }
 }

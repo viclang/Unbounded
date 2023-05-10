@@ -1,3 +1,3 @@
-﻿global using static InfinityComparable.Infinity;
+﻿global using FluentAssertions;
 global using Xunit;
-global using FluentAssertions;
+global using static UnboundedType.Unbounded;

@@ -1,40 +1,40 @@
-namespace InfinityComparable.Tests
+namespace UnboundedType.Tests
 {
     public abstract class ComparableTestsBase
     {
-        private static readonly Infinity<int> maxFinite = new Infinity<int>(int.MaxValue);
-        private static readonly Infinity<int> minFinite = new Infinity<int>(int.MinValue);
+        private static readonly Unbounded<int> maxFinite = new Unbounded<int>(int.MaxValue);
+        private static readonly Unbounded<int> minFinite = new Unbounded<int>(int.MinValue);
 
         // Arrange
-        public static TheoryData<Infinity<int>, Infinity<int>, int> AllCompareToWithExpectedResult =
+        public static TheoryData<Unbounded<int>, Unbounded<int>, int> AllCompareToWithExpectedResult =
             new()
             {
-                { Infinity<int>.PositiveInfinity, Infinity<int>.PositiveInfinity, 0 },
-                { Infinity<int>.NegativeInfinity, Infinity<int>.NegativeInfinity, 0 },
-                { Infinity<int>.PositiveInfinity, Infinity<int>.NegativeInfinity, 1 },
-                { Infinity<int>.NegativeInfinity, Infinity<int>.PositiveInfinity, -1 },
-                { Infinity<int>.PositiveInfinity, maxFinite, 1 },
-                { Infinity<int>.NegativeInfinity, minFinite, -1 },
-                { minFinite, Infinity<int>.NegativeInfinity, 1 },
-                { maxFinite, Infinity<int>.PositiveInfinity, -1 },
-                { minFinite, Infinity<int>.NaN, 1 },
-                { Infinity<int>.NaN, minFinite, -1 },
+                { Unbounded<int>.PositiveInfinity, Unbounded<int>.PositiveInfinity, 0 },
+                { Unbounded<int>.NegativeInfinity, Unbounded<int>.NegativeInfinity, 0 },
+                { Unbounded<int>.PositiveInfinity, Unbounded<int>.NegativeInfinity, 1 },
+                { Unbounded<int>.NegativeInfinity, Unbounded<int>.PositiveInfinity, -1 },
+                { Unbounded<int>.PositiveInfinity, maxFinite, 1 },
+                { Unbounded<int>.NegativeInfinity, minFinite, -1 },
+                { minFinite, Unbounded<int>.NegativeInfinity, 1 },
+                { maxFinite, Unbounded<int>.PositiveInfinity, -1 },
+                { minFinite, Unbounded<int>.NaN, 1 },
+                { Unbounded<int>.NaN, minFinite, -1 },
                 { minFinite, minFinite, 0 },
                 { maxFinite, minFinite, 1 },
                 { minFinite, maxFinite, -1 },
             };
 
-        public static TheoryData<Infinity<int>, object?, int> AllCompareToObjectWithExpectedResult =
+        public static TheoryData<Unbounded<int>, object?, int> AllCompareToObjectWithExpectedResult =
             new()
             {
-                { Infinity<int>.PositiveInfinity, float.PositiveInfinity, 0 },
-                { Infinity<int>.PositiveInfinity, double.PositiveInfinity, 0 },
-                { Infinity<int>.NegativeInfinity, float.NegativeInfinity, 0 },
-                { Infinity<int>.NegativeInfinity, double.NegativeInfinity, 0 },
-                { Infinity<int>.PositiveInfinity, float.NegativeInfinity, 1 },
-                { Infinity<int>.PositiveInfinity, double.NegativeInfinity, 1 },
-                { Infinity<int>.NegativeInfinity, float.PositiveInfinity, -1 },
-                { Infinity<int>.NegativeInfinity, double.PositiveInfinity, -1 },
+                { Unbounded<int>.PositiveInfinity, float.PositiveInfinity, 0 },
+                { Unbounded<int>.PositiveInfinity, double.PositiveInfinity, 0 },
+                { Unbounded<int>.NegativeInfinity, float.NegativeInfinity, 0 },
+                { Unbounded<int>.NegativeInfinity, double.NegativeInfinity, 0 },
+                { Unbounded<int>.PositiveInfinity, float.NegativeInfinity, 1 },
+                { Unbounded<int>.PositiveInfinity, double.NegativeInfinity, 1 },
+                { Unbounded<int>.NegativeInfinity, float.PositiveInfinity, -1 },
+                { Unbounded<int>.NegativeInfinity, double.PositiveInfinity, -1 },
                 { minFinite, float.NaN, 1 },
                 { minFinite, double.NaN, 1 },
             };

@@ -1,10 +1,14 @@
-namespace InfinityComparable.Tests
+namespace UnboundedType.Tests
 {
     public class ComparableTests : ComparableTestsBase
     {
+
+
+
+
         [Theory]
         [MemberData(nameof(AllCompareToWithExpectedResult))]
-        public void AllCompareTo_ShouldGiveExpectedResult(Infinity<int> a, Infinity<int> b, int expected)
+        public void AllCompareTo_ShouldGiveExpectedResult(Unbounded<int> a, Unbounded<int> b, int expected)
         {
             // Act
             var actual = a.CompareTo(b);
@@ -16,7 +20,7 @@ namespace InfinityComparable.Tests
         [Theory]
         [MemberData(nameof(AllCompareToWithExpectedResult))]
         [MemberData(nameof(AllCompareToObjectWithExpectedResult))]
-        public void AllCompareToObject_ShouldGiveExpectedResult(Infinity<int> a, object? b, int expected)
+        public void AllCompareToObject_ShouldGiveExpectedResult(Unbounded<int> a, object? b, int expected)
         {
             // Act
             var actual = a.CompareTo(b);
@@ -31,10 +35,10 @@ namespace InfinityComparable.Tests
             // Act
             var actual = new int[]
             {
-                Infinity<int>.NaN.CompareTo(Infinity<int>.NaN),
-                Infinity<int>.NaN.CompareTo((object)Infinity<int>.NaN),
-                Infinity<int>.NaN.CompareTo(double.NaN),
-                Infinity<int>.NaN.CompareTo(float.NaN),
+                Unbounded<int>.NaN.CompareTo(Unbounded<int>.NaN),
+                Unbounded<int>.NaN.CompareTo((object)Unbounded<int>.NaN),
+                Unbounded<int>.NaN.CompareTo(double.NaN),
+                Unbounded<int>.NaN.CompareTo(float.NaN),
                 double.NaN.CompareTo(double.NaN),
                 float.NaN.CompareTo(float.NaN),
                 double.NaN.CompareTo(float.NaN)

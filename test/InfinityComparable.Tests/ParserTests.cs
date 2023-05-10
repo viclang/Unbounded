@@ -1,6 +1,6 @@
 ﻿using FluentAssertions.Execution;
 
-namespace InfinityComparable.Tests
+namespace UnboundedType.Tests
 {
     public class ParserTests
     {
@@ -22,9 +22,9 @@ namespace InfinityComparable.Tests
             // Assert
             using (new AssertionScope())
             {
-                actualEmpty.Should().Be(Infinity<int>.PositiveInfinity);
-                actualPositiveInfinity.Should().Be(Infinity<int>.PositiveInfinity);
-                actualNegativeInfinity.Should().Be(Infinity<int>.NegativeInfinity);
+                actualEmpty.Should().Be(Unbounded<int>.PositiveInfinity);
+                actualPositiveInfinity.Should().Be(Unbounded<int>.PositiveInfinity);
+                actualNegativeInfinity.Should().Be(Unbounded<int>.NegativeInfinity);
                 actualFinite.Should().Be(1);
             }
         }
@@ -44,9 +44,9 @@ namespace InfinityComparable.Tests
             // Assert
             using (new AssertionScope())
             {
-                actualEmpty.Should().Be(Infinity<int>.PositiveInfinity);
-                actualPositiveInfinity.Should().Be(Infinity<int>.PositiveInfinity);
-                actualNegativeInfinity.Should().Be(Infinity<int>.NegativeInfinity);
+                actualEmpty.Should().Be(Unbounded<int>.PositiveInfinity);
+                actualPositiveInfinity.Should().Be(Unbounded<int>.PositiveInfinity);
+                actualNegativeInfinity.Should().Be(Unbounded<int>.NegativeInfinity);
                 actualFinite.Should().Be(1);
             }
         }
@@ -72,9 +72,9 @@ namespace InfinityComparable.Tests
             using (new AssertionScope())
             {
                 actualResult.Should().AllBeEquivalentTo(true);
-                actualEmpty.Should().Be(Infinity<int>.PositiveInfinity);
-                actualPositiveInfinity.Should().Be(Infinity<int>.PositiveInfinity);
-                actualNegativeInfinity.Should().Be(Infinity<int>.NegativeInfinity);
+                actualEmpty.Should().Be(Unbounded<int>.PositiveInfinity);
+                actualPositiveInfinity.Should().Be(Unbounded<int>.PositiveInfinity);
+                actualNegativeInfinity.Should().Be(Unbounded<int>.NegativeInfinity);
                 actualFinite.Should().Be(1);
             }
         }
@@ -99,9 +99,9 @@ namespace InfinityComparable.Tests
             using (new AssertionScope())
             {
                 actualResult.Should().AllBeEquivalentTo(true);
-                actualEmpty.Should().Be(Infinity<int>.PositiveInfinity);
-                actualPositiveInfinity.Should().Be(Infinity<int>.PositiveInfinity);
-                actualNegativeInfinity.Should().Be(Infinity<int>.NegativeInfinity);
+                actualEmpty.Should().Be(Unbounded<int>.PositiveInfinity);
+                actualPositiveInfinity.Should().Be(Unbounded<int>.PositiveInfinity);
+                actualNegativeInfinity.Should().Be(Unbounded<int>.NegativeInfinity);
                 actualFinite.Should().Be(1);
             }
         }
