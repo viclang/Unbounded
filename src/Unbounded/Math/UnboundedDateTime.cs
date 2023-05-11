@@ -1,8 +1,6 @@
-﻿using System.Diagnostics.Contracts;
-
-namespace Unbounded
+﻿namespace Unbounded
 {
-    public static partial class Unbounded
+    public static partial class UnboundedExtensions
     {
         public static Unbounded<DateTime> Add(this Unbounded<DateTime> left, Unbounded<TimeSpan> right)
             => Add(left, right, (x, y) => x + y);

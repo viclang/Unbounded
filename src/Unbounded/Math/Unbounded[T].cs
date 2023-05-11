@@ -1,6 +1,6 @@
 ﻿namespace Unbounded
 {
-    public static partial class Unbounded
+    public static partial class UnboundedExtensions
     {
         private static Unbounded<TResult> Add<TLeft, TRight, TResult>(
             Unbounded<TLeft> left,

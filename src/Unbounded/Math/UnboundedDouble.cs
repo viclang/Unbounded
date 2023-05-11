@@ -1,8 +1,6 @@
-﻿using System.Diagnostics.Contracts;
-
-namespace Unbounded
+﻿namespace Unbounded
 {
-    public static partial class Unbounded
+    public static partial class UnboundedExtensions
     {
         public static Unbounded<double> Add(this Unbounded<double> left, Unbounded<double> right)
             => Add(left, right, (x, y) => x + y);

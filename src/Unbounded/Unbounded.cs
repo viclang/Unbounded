@@ -58,6 +58,38 @@
         public static Unbounded<T> NegativeInfinity = new(UnboundedState.NegativeInfinity);
         public static Unbounded<T> PositiveInfinity = new(UnboundedState.PositiveInfinity);
 
+        public static Unbounded<T> Parse(string value) => Parse(value, s => (T)Convert.ChangeType(s, typeof(T)));
+
+        public static Unbounded<T> Parse(string value, Func<string, T> finiteParser)
+        {
+            if (string.IsNullOrEmpty(value) || value.Equals("Infinity"))
+            {
+                return Unbounded<T>.PositiveInfinity;
+            }
+            else
+            {
+                return value.Equals("-Infinity")
+                    ? Unbounded<T>.NegativeInfinity
+                    : finiteParser(value);
+            }
+        }
+
+        public static bool TryParse(string value, out Unbounded<T>? result) => TryParse(value, s => (T)Convert.ChangeType(s, typeof(T)), out result);
+
+        public static bool TryParse(string value, Func<string, T> finiteParser, out Unbounded<T>? result)
+        {
+            try
+            {
+                result = Parse(value, finiteParser);
+                return true;
+            }
+            catch
+            {
+                result = null;
+                return false;
+            }
+        }
+
         public TResult Match<TResult>(
             Func<T, TResult> finite,
             Func<TResult> negativeInfinity,

@@ -1,8 +1,6 @@
-﻿using System.Diagnostics.Contracts;
-
-namespace Unbounded
+﻿namespace Unbounded
 {
-    public static partial class Unbounded
+    public static partial class UnboundedExtensions
     {
         public static Unbounded<DateOnly> AddDays(this Unbounded<DateOnly> left, Unbounded<int> right)
             => Add(left, right, (x, y) => x.AddDays(y));

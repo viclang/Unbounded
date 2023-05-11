@@ -8,7 +8,7 @@
         PositiveInfinity = 3,
     }
 
-    public static partial class Unbounded
+    public static partial class UnboundedExtensions
     {
         internal static bool TryGetUnboundedState<T>(this T value, out UnboundedState unboundedState)
         {
