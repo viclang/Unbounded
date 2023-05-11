@@ -42,8 +42,7 @@
         public bool IsPositiveInfinity => _state is UnboundedState.PositiveInfinity;
         public bool IsInfinity => _state is UnboundedState.NegativeInfinity || _state is UnboundedState.PositiveInfinity;
 
-        public object Value =>
-            _state switch
+        public object Value => _state switch
             {
                 UnboundedState.Finite => _finite,
                 UnboundedState.NaN
@@ -251,6 +250,12 @@
         public static bool operator >=(Unbounded<T> left, Unbounded<T> right)
         {
             return left.CompareTo(right) >= 0;
+        }
+
+        public void Deconstruct(out T? value, out UnboundedState state)
+        {
+            value = _finite;
+            state = _state;
         }
     }
 }

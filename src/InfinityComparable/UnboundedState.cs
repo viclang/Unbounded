@@ -21,7 +21,6 @@
             {
                 return TryGetUnboundedState(floatValue, out unboundedState);
             }
-
             unboundedState = UnboundedState.Finite;
             return false;
         }
