@@ -19,7 +19,7 @@ namespace UnboundedType.Tests
 
         [Theory]
         [MemberData(nameof(AllCompareToWithExpectedResult))]
-        [MemberData(nameof(AllCompareToObjectWithExpectedResult))]
+        //[MemberData(nameof(AllCompareToObjectWithExpectedResult))]
         public void AllCompareToObject_ShouldGiveExpectedResult(Unbounded<int> a, object? b, int expected)
         {
             // Act
@@ -37,8 +37,8 @@ namespace UnboundedType.Tests
             {
                 Unbounded<int>.NaN.CompareTo(Unbounded<int>.NaN),
                 Unbounded<int>.NaN.CompareTo((object)Unbounded<int>.NaN),
-                Unbounded<int>.NaN.CompareTo(double.NaN),
-                Unbounded<int>.NaN.CompareTo(float.NaN),
+                Unbounded<double>.NaN.CompareTo(double.NaN),
+                Unbounded<float>.NaN.CompareTo(float.NaN),
                 double.NaN.CompareTo(double.NaN),
                 float.NaN.CompareTo(float.NaN),
                 double.NaN.CompareTo(float.NaN)

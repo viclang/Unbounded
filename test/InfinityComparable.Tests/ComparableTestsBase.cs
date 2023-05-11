@@ -2,13 +2,17 @@ namespace UnboundedType.Tests
 {
     public abstract class ComparableTestsBase
     {
-        private static readonly Unbounded<int> maxFinite = new Unbounded<int>(int.MaxValue);
-        private static readonly Unbounded<int> minFinite = new Unbounded<int>(int.MinValue);
+        private static readonly Unbounded<int> maxFinite = int.MaxValue;
+        private static readonly Unbounded<int> minFinite = new(int.MinValue);
 
         // Arrange
         public static TheoryData<Unbounded<int>, Unbounded<int>, int> AllCompareToWithExpectedResult =
             new()
             {
+                { Unbounded<int>.NaN, Unbounded<int>.NegativeInfinity, -1 },
+                { Unbounded<int>.NaN, Unbounded<int>.PositiveInfinity, -1 },
+                { Unbounded<int>.NegativeInfinity, Unbounded<int>.NaN, 1 },
+                { Unbounded<int>.PositiveInfinity, Unbounded<int>.NaN, 1 },
                 { Unbounded<int>.PositiveInfinity, Unbounded<int>.PositiveInfinity, 0 },
                 { Unbounded<int>.NegativeInfinity, Unbounded<int>.NegativeInfinity, 0 },
                 { Unbounded<int>.PositiveInfinity, Unbounded<int>.NegativeInfinity, 1 },

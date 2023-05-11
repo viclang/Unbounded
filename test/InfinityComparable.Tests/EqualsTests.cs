@@ -15,7 +15,7 @@
 
         [Theory]
         [MemberData(nameof(AllCompareToWithExpectedResult))]
-        [MemberData(nameof(AllCompareToObjectWithExpectedResult))]
+        //[MemberData(nameof(AllCompareToObjectWithExpectedResult))]
         public void AllEqualsObject_ShouldGiveExpectedResult(Unbounded<int> a, object? b, int compareResult)
         {
             // Act

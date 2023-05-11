@@ -14,18 +14,18 @@ namespace UnboundedType.Tests.Factories
             => new()
             {
                 { left, right, result },
-                { UnboundedState.NegativeInfinity, right, UnboundedState.NegativeInfinity },
-                { UnboundedState.PositiveInfinity, right, UnboundedState.PositiveInfinity },
-                { UnboundedState.NegativeInfinity, default(TRight), UnboundedState.NegativeInfinity },
-                { UnboundedState.PositiveInfinity, default(TRight), UnboundedState.PositiveInfinity },
-                { left, UnboundedState.NegativeInfinity, UnboundedState.NegativeInfinity },
-                { left, UnboundedState.PositiveInfinity, UnboundedState.PositiveInfinity },
-                { default(TLeft), UnboundedState.NegativeInfinity, UnboundedState.NegativeInfinity },
-                { default(TLeft), UnboundedState.PositiveInfinity, UnboundedState.PositiveInfinity },
-                { UnboundedState.PositiveInfinity, UnboundedState.PositiveInfinity, UnboundedState.PositiveInfinity },
-                { UnboundedState.NegativeInfinity, UnboundedState.NegativeInfinity, UnboundedState.NegativeInfinity },
-                { UnboundedState.NegativeInfinity, UnboundedState.PositiveInfinity , UnboundedState.NaN },
-                { UnboundedState.PositiveInfinity, UnboundedState.NegativeInfinity, UnboundedState.NaN },
+                { Unbounded<TLeft>.NegativeInfinity, right, Unbounded<TResult>.NegativeInfinity },
+                { Unbounded<TLeft>.PositiveInfinity, right, Unbounded<TResult>.PositiveInfinity },
+                { Unbounded<TLeft>.NegativeInfinity, default(TRight), Unbounded<TResult>.NegativeInfinity },
+                { Unbounded<TLeft>.PositiveInfinity, default(TRight), Unbounded<TResult>.PositiveInfinity },
+                { left, Unbounded<TRight>.NegativeInfinity, Unbounded<TResult>.NegativeInfinity },
+                { left, Unbounded<TRight>.PositiveInfinity, Unbounded<TResult>.PositiveInfinity },
+                { default(TLeft), Unbounded<TRight>.NegativeInfinity, Unbounded<TResult>.NegativeInfinity },
+                { default(TLeft), Unbounded<TRight>.PositiveInfinity, Unbounded<TResult>.PositiveInfinity },
+                { Unbounded<TLeft>.PositiveInfinity, Unbounded<TRight>.PositiveInfinity, Unbounded<TResult>.PositiveInfinity },
+                { Unbounded<TLeft>.NegativeInfinity, Unbounded<TRight>.NegativeInfinity, Unbounded<TResult>.NegativeInfinity },
+                { Unbounded<TLeft>.NegativeInfinity, Unbounded<TRight>.PositiveInfinity , Unbounded<TResult>.NaN },
+                { Unbounded<TLeft>.PositiveInfinity, Unbounded<TRight>.NegativeInfinity, Unbounded<TResult>.NaN },
             };
 
         public static TheoryData<Unbounded<TLeft>, Unbounded<TRight>, Unbounded<TResult>> CreateSubstractData<TLeft, TRight, TResult>(
@@ -38,18 +38,18 @@ namespace UnboundedType.Tests.Factories
             => new()
             {
                 { left, right, result },
-                { UnboundedState.NegativeInfinity, right, UnboundedState.NegativeInfinity },
-                { UnboundedState.PositiveInfinity, right, UnboundedState.PositiveInfinity },
-                { UnboundedState.NegativeInfinity, default(TRight), UnboundedState.NegativeInfinity },
-                { UnboundedState.PositiveInfinity, default(TRight), UnboundedState.PositiveInfinity },
-                { left, UnboundedState.NegativeInfinity, UnboundedState.NegativeInfinity },
-                { left, UnboundedState.PositiveInfinity, UnboundedState.PositiveInfinity },
-                { default(TLeft), UnboundedState.NegativeInfinity, UnboundedState.NegativeInfinity },
-                { default(TLeft), UnboundedState.PositiveInfinity, UnboundedState.PositiveInfinity },
-                { UnboundedState.PositiveInfinity, UnboundedState.PositiveInfinity, UnboundedState.NaN },
-                { UnboundedState.NegativeInfinity, UnboundedState.NegativeInfinity, UnboundedState.NaN },
-                { UnboundedState.NegativeInfinity, UnboundedState.PositiveInfinity, UnboundedState.NaN },
-                { UnboundedState.PositiveInfinity, UnboundedState.NegativeInfinity, UnboundedState.NaN },
+                { Unbounded<TLeft>.NegativeInfinity, right, Unbounded<TResult>.NegativeInfinity },
+                { Unbounded<TLeft>.PositiveInfinity, right, Unbounded<TResult>.PositiveInfinity },
+                { Unbounded<TLeft>.NegativeInfinity, default(TRight), Unbounded<TResult>.NegativeInfinity },
+                { Unbounded<TLeft>.PositiveInfinity, default(TRight), Unbounded<TResult>.PositiveInfinity },
+                { left, Unbounded<TRight>.NegativeInfinity, Unbounded<TResult>.NegativeInfinity },
+                { left, Unbounded<TRight>.PositiveInfinity, Unbounded<TResult>.PositiveInfinity },
+                { default(TLeft), Unbounded<TRight>.NegativeInfinity, Unbounded<TResult>.NegativeInfinity },
+                { default(TLeft), Unbounded<TRight>.PositiveInfinity, Unbounded<TResult>.PositiveInfinity },
+                { Unbounded<TLeft>.PositiveInfinity, Unbounded<TRight>.PositiveInfinity, Unbounded<TResult>.NaN },
+                { Unbounded<TLeft>.NegativeInfinity, Unbounded<TRight>.NegativeInfinity, Unbounded<TResult>.NaN },
+                { Unbounded<TLeft>.NegativeInfinity, Unbounded<TRight>.PositiveInfinity, Unbounded<TResult>.NaN },
+                { Unbounded<TLeft>.PositiveInfinity, Unbounded<TRight>.NegativeInfinity, Unbounded<TResult>.NaN },
             };
 
         public static TheoryData<Unbounded<TLeft>, Unbounded<TRight>, Unbounded<TResult>> CreateMultiplyData<TLeft, TRight, TResult>(
@@ -61,45 +61,43 @@ namespace UnboundedType.Tests.Factories
         where TResult : struct, IEquatable<TResult>, IComparable<TResult>, IComparable
             => new()
             {
-                { UnboundedState.NegativeInfinity, UnboundedState.NegativeInfinity, UnboundedState.NegativeInfinity }
-                //{ new(left), new(right), new(result) },
-                //{ new(false), new(right), new(false) },
-                //{ new(true), new(right), new(true) },
-                //{ new(false), new(default(TRight)), new() },
-                //{ new(true), new(default(TRight)), new() },
-                //{ new(left), new(false), new(false) },
-                //{ new(left), new(true), new(true) },
-                //{ new(default(TLeft)), new(false), new() },
-                //{ new(default(TLeft)), new(true), new() },
-                //{ new(true), new(true), new(true) },
-                //{ new(false), new(false), new(true) },
-                //{ new(false), new(true), new(false) },
-                //{ new(true), new(false), new(false) },
+                //{ left, right, result },
+                //{ Unbounded<TLeft>.NegativeInfinity, right, Unbounded<TResult>.NegativeInfinity },
+                //{ Unbounded<TLeft>.PositiveInfinity, right, Unbounded<TResult>.PositiveInfinity },
+                //{ Unbounded<TLeft>.NegativeInfinity, default(TRight), Unbounded<TResult>.NaN },
+                //{ Unbounded<TLeft>.PositiveInfinity, default(TRight), Unbounded<TResult>.NaN },
+                //{ left, Unbounded<TRight>.NegativeInfinity, Unbounded<TResult>.NegativeInfinity },
+                { left, Unbounded<TRight>.PositiveInfinity, Unbounded<TResult>.PositiveInfinity },
+                { default(TLeft), Unbounded<TRight>.NegativeInfinity, Unbounded<TResult>.NaN },
+                { default(TLeft), Unbounded<TRight>.PositiveInfinity, Unbounded<TResult>.NaN },
+                { Unbounded<TLeft>.PositiveInfinity, Unbounded<TRight>.PositiveInfinity, Unbounded<TResult>.PositiveInfinity },
+                { Unbounded<TLeft>.NegativeInfinity, Unbounded<TRight>.NegativeInfinity, Unbounded<TResult>.PositiveInfinity },
+                { Unbounded<TLeft>.NegativeInfinity, Unbounded<TRight>.PositiveInfinity, Unbounded<TResult>.NegativeInfinity },
+                { Unbounded<TLeft>.PositiveInfinity, Unbounded<TRight>.NegativeInfinity, Unbounded<TResult>.NegativeInfinity },
             };
 
         public static TheoryData<Unbounded<TLeft>, Unbounded<TRight>, Unbounded<TResult>> CreateDivideData<TLeft, TRight, TResult>(
             TLeft left,
-            TRight Right,
+            TRight right,
             TResult result)
         where TLeft : struct, IEquatable<TLeft>, IComparable<TLeft>, IComparable
         where TRight : struct, IEquatable<TRight>, IComparable<TRight>, IComparable
         where TResult : struct, IEquatable<TResult>, IComparable<TResult>, IComparable
             => new()
             {
-                { UnboundedState.NegativeInfinity, UnboundedState.NegativeInfinity, UnboundedState.NegativeInfinity }
-                //{ new(left), new(Right), new(result) },
-                //{ new(false), new(Right), new(true) },
-                //{ new(true), new(Right), new(true) },
-                //{ new(false), new(default(TRight)), new(true) },
-                //{ new(true), new(default(TRight)), new(true) },
-                //{ new(left), new(false), new(default(TResult)) },
-                //{ new(left), new(true), new(default(TResult)) },
-                //{ new(default(TLeft)), new(false), new(default(TResult)) },
-                //{ new(default(TLeft)), new(true), new(default(TResult)) },
-                //{ new(true), new(true), new() },
-                //{ new(false), new(false), new() },
-                //{ new(false), new(true), new() },
-                //{ new(true), new(false), new() },
+                { left, right, result },
+                { Unbounded<TLeft>.NegativeInfinity, right, Unbounded<TResult>.PositiveInfinity },
+                { Unbounded<TLeft>.PositiveInfinity, right, Unbounded<TResult>.PositiveInfinity },
+                { Unbounded<TLeft>.NegativeInfinity, default(TRight), Unbounded<TResult>.PositiveInfinity },
+                { Unbounded<TLeft>.PositiveInfinity, default(TRight), Unbounded<TResult>.PositiveInfinity },
+                { left, Unbounded<TRight>.NegativeInfinity, default(TResult) },
+                { left, Unbounded<TRight>.PositiveInfinity, default(TResult) },
+                { default(TLeft), Unbounded<TRight>.NegativeInfinity, default(TResult) },
+                { default(TLeft), Unbounded<TRight>.PositiveInfinity, default(TResult) },
+                { Unbounded<TLeft>.PositiveInfinity, Unbounded<TRight>.PositiveInfinity, Unbounded<TResult>.NaN },
+                { Unbounded<TLeft>.NegativeInfinity, Unbounded<TRight>.NegativeInfinity, Unbounded<TResult>.NaN },
+                { Unbounded<TLeft>.NegativeInfinity, Unbounded<TRight>.PositiveInfinity, Unbounded<TResult>.NaN },
+                { Unbounded<TLeft>.PositiveInfinity, Unbounded<TRight>.NegativeInfinity, Unbounded<TResult>.NaN },
             };
     }
 }

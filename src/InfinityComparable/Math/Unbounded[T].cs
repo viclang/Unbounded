@@ -17,20 +17,20 @@
 
             if (left.IsInfinity && right.IsInfinity && left.IsPositiveInfinity == right.IsPositiveInfinity)
             {
-                return left.State;
+                return new(left.State);
             }
 
             if (left.IsInfinity && right.IsFinite)
             {
-                return left.State;
+                return new(left.State);
             }
 
             if (left.IsFinite && right.IsInfinity)
             {
-                return right.State;
+                return new(right.State);
             }
 
-            return UnboundedState.NaN;
+            return Unbounded<TResult>.NaN;
         }
 
         private static Unbounded<TResult> Substract<TLeft, TRight, TResult>(
@@ -48,15 +48,15 @@
 
             if (left.IsInfinity && right.IsFinite)
             {
-                return left.State;
+                return new(left.State);
             }
 
             if (left.IsFinite && right.IsInfinity)
             {
-                return right.State;
+                return new(right.State);
             }
 
-            return UnboundedState.NaN;
+            return new(UnboundedState.NaN);
         }
 
         private static Unbounded<TResult> Multiply<TLeft, TRight, TResult>(
@@ -74,23 +74,23 @@
 
             if (left.IsInfinity && right.IsFinite && !right.GetFiniteOrDefault().Equals(default))
             {
-                return left.State;
+                return new(left.State);
             }
 
             if (left.IsFinite && right.IsInfinity && !left.GetFiniteOrDefault().Equals(default))
             {
-                return left.State;
+                return new(right.State);
             }
 
             if (left.IsInfinity && right.IsInfinity)
             {
                 if (left.IsPositiveInfinity == right.IsPositiveInfinity)
                 {
-                    return UnboundedState.PositiveInfinity;
+                    return Unbounded<TResult>.PositiveInfinity;
                 }
-                return UnboundedState.NegativeInfinity;
+                return Unbounded<TResult>.NegativeInfinity;
             }
-            return UnboundedState.NaN;
+            return Unbounded<TResult>.NaN;
         }
 
         private static Unbounded<TResult> Divide<TLeft, TRight, TResult>(
@@ -108,7 +108,7 @@
 
             if (left.IsInfinity && right.IsFinite)
             {
-                return UnboundedState.PositiveInfinity;
+                return Unbounded<TResult>.PositiveInfinity;
             }
 
             if (left.IsFinite && right.IsInfinity)
@@ -116,7 +116,7 @@
                 return default(TResult);
             }
 
-            return UnboundedState.NaN;
+            return Unbounded<TResult>.NaN;
         }
     }
 }

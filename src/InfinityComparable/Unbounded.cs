@@ -1,14 +1,9 @@
-﻿using System.Diagnostics;
-using System.Diagnostics.Contracts;
-
-namespace UnboundedType
+﻿namespace UnboundedType
 {
     public readonly struct Unbounded<T> : IComparable<Unbounded<T>>, IComparable, IEquatable<Unbounded<T>>
         where T : struct, IEquatable<T>, IComparable<T>, IComparable
     {
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly T _finite;
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly UnboundedState _state;
 
         public Unbounded()
@@ -21,6 +16,11 @@ namespace UnboundedType
         {
             _finite = finite;
             _state = UnboundedState.Finite;
+            if (finite.TryGetUnboundedState(out var unboundedState))
+            {
+                _finite = default;
+                _state = unboundedState;
+            }
         }
 
         public Unbounded(UnboundedState state)
@@ -55,9 +55,9 @@ namespace UnboundedType
         public T GetFiniteOrDefault() => _finite;
         public T? ToNullable() => IsFinite ? _finite : null;
 
-        public static Unbounded<T> NaN = UnboundedState.NaN;
-        public static Unbounded<T> NegativeInfinity = UnboundedState.NegativeInfinity;
-        public static Unbounded<T> PositiveInfinity = UnboundedState.PositiveInfinity;
+        public static Unbounded<T> NaN = new(UnboundedState.NaN);
+        public static Unbounded<T> NegativeInfinity = new(UnboundedState.NegativeInfinity);
+        public static Unbounded<T> PositiveInfinity = new(UnboundedState.PositiveInfinity);
 
         public TResult Match<TResult>(
             Func<T, TResult> finite,
@@ -82,7 +82,7 @@ namespace UnboundedType
             {
                 return mapFunc(_finite);
             }
-            return _state;
+            return new(_state);
         }
 
         public bool TryPickFinite(out T value, out UnboundedState state)
@@ -98,7 +98,7 @@ namespace UnboundedType
             {
                 return _finite.CompareTo(other._finite);
             }
-            return _state.CompareTo(other._state);
+            return Math.Sign(_state.CompareTo(other._state));
         }
 
         public int CompareTo(object? other)
@@ -141,15 +141,11 @@ namespace UnboundedType
                 return IsNegativeInfinity ? 0 : -1;
             if (float.IsPositiveInfinity(otherFloat))
                 return IsPositiveInfinity ? 0 : 1;
-
+            
             return _finite.CompareTo(otherFloat);
         }
 
-        public bool Equals(Unbounded<T> other)
-        {
-            return IsFinite && other.IsFinite && _finite.Equals(other._finite)
-                || _state.Equals(other._state);
-        }
+        public bool Equals(Unbounded<T> other) => _finite.Equals(other._finite) && _state.Equals(other._state);
 
         public override bool Equals(object? other)
         {
@@ -160,7 +156,7 @@ namespace UnboundedType
 
             if (other is Unbounded<T> unboundedOther)
             {
-                Equals(unboundedOther);
+                return Equals(unboundedOther);
             }
 
             if (other is double otherDouble)
@@ -183,7 +179,7 @@ namespace UnboundedType
                     return IsPositiveInfinity;
             }
 
-            throw new NotSupportedException();
+            return _finite.Equals(other);
         }
 
         public override string? ToString() => ToString(f => f.ToString());
@@ -199,25 +195,21 @@ namespace UnboundedType
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(_finite.GetHashCode(), _state.GetHashCode());
-            //unchecked
-            //{
-            //    int hashCode = IsFinite ? _finite.GetHashCode() : _state.GetHashCode();
-            //    return hashCode * 31 ^ _state.GetHashCode() * 17;
-            //}
+            unchecked
+            {
+                int hashCode = IsFinite ? _finite.GetHashCode() : _state.GetHashCode();
+                return hashCode * 31 ^ _state.GetHashCode() * 17;
+            }
         }
 
-        public static implicit operator Unbounded<T>(T value) => value;
-        public static implicit operator Unbounded<T>(UnboundedState state) => state;
-        public static implicit operator Unbounded<T>(T? value) => value.HasValue ? value.Value : UnboundedState.NegativeInfinity;
-
+        public static implicit operator Unbounded<T>(T? value) => value.HasValue ? new(value.Value) : new(UnboundedState.NegativeInfinity);
         public static implicit operator T?(Unbounded<T> value) => value._state is UnboundedState.Finite ? value._finite : null;
 
         public static Unbounded<T> operator -(Unbounded<T> value)
         {
             if (value.IsPositiveInfinity)
             {
-                return UnboundedState.NegativeInfinity;
+                return Unbounded<T>.NegativeInfinity;
             }
             return value;
         }
@@ -226,7 +218,7 @@ namespace UnboundedType
         {
             if (value.IsNegativeInfinity)
             {
-                return UnboundedState.PositiveInfinity;
+                return Unbounded<T>.PositiveInfinity;
             }
             return value;
         }
