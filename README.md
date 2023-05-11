@@ -1,4 +1,4 @@
-# InfinityComparable
+# Unbounded
 Generic infinity support for all types
 
 ### Download & Install
