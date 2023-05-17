@@ -16,7 +16,7 @@
         {
             _finite = finite;
             _state = UnboundedState.Finite;
-            if (finite.TryGetUnboundedState(out var unboundedState))
+            if (TryGetUnboundedState(finite, out var unboundedState))
             {
                 _finite = default;
                 _state = unboundedState;
@@ -32,6 +32,70 @@
 
             _finite = default;
             _state = state;
+        }
+
+        private bool TryGetUnboundedState(T value, out UnboundedState unboundedState)
+        {
+            var typeCode = Type.GetTypeCode(typeof(T));
+            if (typeCode == TypeCode.Single)
+            {
+                return TryGetUnboundedState((float)(object)value, out unboundedState);
+            }
+
+            if (typeCode == TypeCode.Double)
+            {
+                return TryGetUnboundedState((double)(object)value, out unboundedState);
+            }
+            unboundedState = UnboundedState.Finite;
+            return false;
+        }
+
+        private bool TryGetUnboundedState(double value, out UnboundedState unboundedState)
+        {
+            if (double.IsFinite(value))
+            {
+                unboundedState = UnboundedState.Finite;
+                return false;
+            }
+
+            if (double.IsNegativeInfinity(value))
+            {
+                unboundedState = UnboundedState.NegativeInfinity;
+                return true;
+            }
+
+            if (double.IsPositiveInfinity(value))
+            {
+                unboundedState = UnboundedState.PositiveInfinity;
+                return true;
+            }
+
+            unboundedState = UnboundedState.NaN;
+            return true;
+        }
+
+        private bool TryGetUnboundedState(float value, out UnboundedState unboundedState)
+        {
+            if (float.IsFinite(value))
+            {
+                unboundedState = UnboundedState.Finite;
+                return false;
+            }
+
+            if (float.IsNegativeInfinity(value))
+            {
+                unboundedState = UnboundedState.NegativeInfinity;
+                return true;
+            }
+
+            if (float.IsPositiveInfinity(value))
+            {
+                unboundedState = UnboundedState.PositiveInfinity;
+                return true;
+            }
+
+            unboundedState = UnboundedState.NaN;
+            return true;
         }
 
         public UnboundedState State => _state;
@@ -54,9 +118,9 @@
         public T GetFiniteOrDefault() => _finite;
         public T? ToNullable() => IsFinite ? _finite : null;
 
-        public static Unbounded<T> NaN = new(UnboundedState.NaN);
-        public static Unbounded<T> NegativeInfinity = new(UnboundedState.NegativeInfinity);
-        public static Unbounded<T> PositiveInfinity = new(UnboundedState.PositiveInfinity);
+        public static readonly Unbounded<T> NaN = new(UnboundedState.NaN);
+        public static readonly Unbounded<T> NegativeInfinity = new(UnboundedState.NegativeInfinity);
+        public static readonly Unbounded<T> PositiveInfinity = new(UnboundedState.PositiveInfinity);
 
         public static Unbounded<T> Parse(string value) => Parse(value, s => (T)Convert.ChangeType(s, typeof(T)));
 
@@ -138,42 +202,11 @@
             {
                 return CompareTo(otherUnbounded);
             }
-
-            if (typeof(T).Equals(typeof(double)) && other is double otherDouble)
+            if (other is T otherValue)
             {
-                return CompareDouble(otherDouble);
+                return CompareTo(new Unbounded<T>(otherValue));
             }
-
-            if (typeof(T).Equals(typeof(float)) && other is float otherFloat)
-            {
-                return CompareFloat(otherFloat);
-            }
-
-            return _finite.CompareTo(other);
-        }
-
-        private int CompareDouble(double otherDouble)
-        {
-            if (double.IsNaN(otherDouble))
-                return IsNaN ? 0 : 1;
-            if (double.IsNegativeInfinity(otherDouble))
-                return IsNegativeInfinity ? 0 : -1;
-            if (double.IsPositiveInfinity(otherDouble))
-                return IsPositiveInfinity ? 0 : 1;
-
-            return _finite.CompareTo(otherDouble);
-        }
-
-        private int CompareFloat(float otherFloat)
-        {
-            if (float.IsNaN(otherFloat))
-                return IsNaN ? 0 : 1;
-            if (float.IsNegativeInfinity(otherFloat))
-                return IsNegativeInfinity ? 0 : -1;
-            if (float.IsPositiveInfinity(otherFloat))
-                return IsPositiveInfinity ? 0 : 1;
-
-            return _finite.CompareTo(otherFloat);
+            throw new ArgumentException("other is not the same type as this instance.");
         }
 
         public bool Equals(Unbounded<T> other) => _finite.Equals(other._finite) && _state.Equals(other._state);
@@ -228,8 +261,10 @@
         {
             unchecked
             {
-                int hashCode = IsFinite ? _finite.GetHashCode() : _state.GetHashCode();
-                return hashCode * 31 ^ _state.GetHashCode() * 17;
+                int hash = 17;
+                hash = hash * 23 + _finite.GetHashCode();
+                hash = hash * 23 + _state.GetHashCode();
+                return hash;
             }
         }
 
