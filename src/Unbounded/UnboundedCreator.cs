@@ -11,7 +11,7 @@
         public static Unbounded<T> ToNegativeInfinity<T>(this T? value) where T : struct, IEquatable<T>, IComparable<T>, IComparable
             => value.HasValue ? new(value.Value) : Unbounded<T>.NegativeInfinity;
 
-        public static Unbounded<T> ToNan<T>(this T? value) where T : struct, IEquatable<T>, IComparable<T>, IComparable
+        public static Unbounded<T> ToNaN<T>(this T? value) where T : struct, IEquatable<T>, IComparable<T>, IComparable
             => value.HasValue ? new(value.Value) : Unbounded<T>.NaN;
     }
 }
