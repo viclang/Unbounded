@@ -32,8 +32,8 @@ namespace Unbounded.Tests
             {
                 Unbounded<int>.NaN.CompareTo(Unbounded<int>.NaN),
                 Unbounded<int>.NaN.CompareTo((object)Unbounded<int>.NaN),
-                Unbounded<double>.NaN.CompareTo(double.NaN),
-                Unbounded<float>.NaN.CompareTo(float.NaN),
+                Unbounded<double>.NaN.CompareTo(double.NaN.ToUnbounded()),
+                Unbounded<float>.NaN.CompareTo(float.NaN.ToUnbounded()),
                 double.NaN.CompareTo(double.NaN),
                 float.NaN.CompareTo(float.NaN),
                 double.NaN.CompareTo(float.NaN)

@@ -16,86 +16,12 @@
         {
             _finite = finite;
             _state = UnboundedState.Finite;
-            if (TryGetUnboundedState(finite, out var unboundedState))
-            {
-                _finite = default;
-                _state = unboundedState;
-            }
         }
 
         public Unbounded(UnboundedState state)
         {
-            if (!Enum.IsDefined(typeof(UnboundedState), state))
-            {
-                throw new ArgumentOutOfRangeException(nameof(state), state, "Invalid UnboundedState value.");
-            }
-
             _finite = default;
             _state = state;
-        }
-
-        private bool TryGetUnboundedState(T value, out UnboundedState unboundedState)
-        {
-            var typeCode = Type.GetTypeCode(typeof(T));
-            if (typeCode == TypeCode.Single)
-            {
-                return TryGetUnboundedState((float)(object)value, out unboundedState);
-            }
-
-            if (typeCode == TypeCode.Double)
-            {
-                return TryGetUnboundedState((double)(object)value, out unboundedState);
-            }
-            unboundedState = UnboundedState.Finite;
-            return false;
-        }
-
-        private bool TryGetUnboundedState(double value, out UnboundedState unboundedState)
-        {
-            if (double.IsFinite(value))
-            {
-                unboundedState = UnboundedState.Finite;
-                return false;
-            }
-
-            if (double.IsNegativeInfinity(value))
-            {
-                unboundedState = UnboundedState.NegativeInfinity;
-                return true;
-            }
-
-            if (double.IsPositiveInfinity(value))
-            {
-                unboundedState = UnboundedState.PositiveInfinity;
-                return true;
-            }
-
-            unboundedState = UnboundedState.NaN;
-            return true;
-        }
-
-        private bool TryGetUnboundedState(float value, out UnboundedState unboundedState)
-        {
-            if (float.IsFinite(value))
-            {
-                unboundedState = UnboundedState.Finite;
-                return false;
-            }
-
-            if (float.IsNegativeInfinity(value))
-            {
-                unboundedState = UnboundedState.NegativeInfinity;
-                return true;
-            }
-
-            if (float.IsPositiveInfinity(value))
-            {
-                unboundedState = UnboundedState.PositiveInfinity;
-                return true;
-            }
-
-            unboundedState = UnboundedState.NaN;
-            return true;
         }
 
         public UnboundedState State => _state;
@@ -105,15 +31,6 @@
         public bool IsFinite => _state is UnboundedState.Finite;
         public bool IsPositiveInfinity => _state is UnboundedState.PositiveInfinity;
         public bool IsInfinity => _state is UnboundedState.NegativeInfinity || _state is UnboundedState.PositiveInfinity;
-
-        public object Value => _state switch
-        {
-            UnboundedState.Finite => _finite,
-            UnboundedState.NaN
-                or UnboundedState.NegativeInfinity
-                or UnboundedState.PositiveInfinity => _state,
-            _ => throw new InvalidOperationException(),
-        };
 
         public T GetFiniteOrDefault() => _finite;
         public T? ToNullable() => IsFinite ? _finite : null;
@@ -269,7 +186,7 @@
         }
 
         public static implicit operator Unbounded<T>(T? value) => value.HasValue ? new(value.Value) : new(UnboundedState.NegativeInfinity);
-        public static implicit operator T?(Unbounded<T> value) => value._state is UnboundedState.Finite ? value._finite : null;
+        public static explicit operator T?(Unbounded<T> value) => value._state is UnboundedState.Finite ? value._finite : null;
 
         public static Unbounded<T> operator -(Unbounded<T> value)
         {
