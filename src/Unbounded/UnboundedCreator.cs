@@ -14,6 +14,23 @@
         public static Unbounded<T> ToNaN<T>(this T? value) where T : struct, IEquatable<T>, IComparable<T>, IComparable
             => value.HasValue ? new(value.Value) : Unbounded<T>.NaN;
 
+        public static Unbounded<float> ToUnbounded(this float value)
+        {
+            if (float.IsFinite(value))
+            {
+                return new(value);
+            }
+            if (float.IsNegativeInfinity(value))
+            {
+                return Unbounded<float>.NegativeInfinity;
+            }
+            if (float.IsPositiveInfinity(value))
+            {
+                return Unbounded<float>.PositiveInfinity;
+            }
+            return Unbounded<float>.NaN;
+        }
+
         public static Unbounded<double> ToUnbounded(this double value)
         {
             if (double.IsFinite(value))
@@ -29,23 +46,6 @@
                 return Unbounded<double>.PositiveInfinity;
             }
             return Unbounded<double>.NaN;
-        }
-
-        public static Unbounded<float> ToUnbounded(this float value)
-        {
-            if (float.IsFinite(value))
-            {
-                return new(value);
-            }
-            if (float.IsNegativeInfinity(value))
-            {
-                return new(UnboundedState.NegativeInfinity);
-            }
-            if (float.IsPositiveInfinity(value))
-            {
-                return new(UnboundedState.PositiveInfinity);
-            }
-            return new(UnboundedState.NaN);
         }
     }
 }
