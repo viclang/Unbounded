@@ -39,50 +39,37 @@
         public static readonly Unbounded<T> NegativeInfinity = new(UnboundedState.NegativeInfinity);
         public static readonly Unbounded<T> PositiveInfinity = new(UnboundedState.PositiveInfinity);
 
-        public static Unbounded<T> Parse(string value) => Parse(value, s => (T)Convert.ChangeType(s, typeof(T)));
+        public static Unbounded<T> Parse(string s) => Parse(s, s => (T)Convert.ChangeType(s, typeof(T)));
 
-        public static Unbounded<T> Parse(string value, Func<string, T> finiteParser)
+        public static Unbounded<T> Parse(string s, Func<string, T> finiteParser)
         {
-            if (string.IsNullOrEmpty(value) || value.Equals("Infinity"))
+            if (string.IsNullOrWhiteSpace(s) || s.Equals("NaN"))
+            {
+                return Unbounded<T>.NaN;
+            }
+            if (s.Equals("-Infinity") || s.Equals("-∞"))
+            {
+                return Unbounded<T>.NegativeInfinity;
+            }
+            if (s.Equals("Infinity") || s.Equals("+∞") || s.Equals("∞"))
             {
                 return Unbounded<T>.PositiveInfinity;
             }
-            else
-            {
-                return value.Equals("-Infinity")
-                    ? Unbounded<T>.NegativeInfinity
-                    : finiteParser(value);
-            }
-        }
-
-        public static bool TryParse(string value, out Unbounded<T>? result) => TryParse(value, s => (T)Convert.ChangeType(s, typeof(T)), out result);
-
-        public static bool TryParse(string value, Func<string, T> finiteParser, out Unbounded<T>? result)
-        {
-            try
-            {
-                result = Parse(value, finiteParser);
-                return true;
-            }
-            catch
-            {
-                result = null;
-                return false;
-            }
+            return new(finiteParser(s));
         }
 
         public TResult Match<TResult>(
             Func<T, TResult> finite,
-            Func<TResult> negativeInfinity,
-            Func<TResult> positiveInfinity,
-            Func<TResult> nan)
+            Func<Unbounded<T>, TResult> negativeInfinity,
+            Func<Unbounded<T>, TResult> positiveInfinity,
+            Func<Unbounded<T>, TResult> nan)
         {
             return _state switch
             {
-                UnboundedState.NaN when nan is not null => nan(),
-                UnboundedState.NegativeInfinity when negativeInfinity is not null => negativeInfinity(),
+                UnboundedState.NaN when nan is not null => nan(this),
+                UnboundedState.NegativeInfinity when negativeInfinity is not null => negativeInfinity(this),
                 UnboundedState.Finite when finite is not null => finite(_finite),
-                UnboundedState.PositiveInfinity when positiveInfinity is not null => positiveInfinity(),
+                UnboundedState.PositiveInfinity when positiveInfinity is not null => positiveInfinity(this),
                 _ => throw new InvalidOperationException(),
             };
         }
@@ -92,7 +79,7 @@
         {
             if (IsFinite)
             {
-                return mapFunc(_finite);
+                return new(mapFunc(_finite));
             }
             return new(_state);
         }
@@ -134,12 +121,10 @@
             {
                 return false;
             }
-
             if (other is Unbounded<T> unboundedOther)
             {
                 return Equals(unboundedOther);
             }
-
             if (other is double otherDouble)
             {
                 if (double.IsNaN(otherDouble))
@@ -149,7 +134,6 @@
                 if (double.IsPositiveInfinity(otherDouble))
                     return IsPositiveInfinity;
             }
-
             if (other is float otherFloat)
             {
                 if (float.IsNaN(otherFloat))
@@ -159,8 +143,11 @@
                 if (float.IsPositiveInfinity(otherFloat))
                     return IsPositiveInfinity;
             }
-
-            return _finite.Equals(other);
+            if (IsFinite)
+            {
+                return _finite.Equals(other);
+            }
+            return false;
         }
 
         public override string? ToString() => ToString(f => f.ToString());
@@ -185,8 +172,8 @@
             }
         }
 
-        public static implicit operator Unbounded<T>(T? value) => value.HasValue ? new(value.Value) : new(UnboundedState.NegativeInfinity);
-        public static explicit operator T?(Unbounded<T> value) => value._state is UnboundedState.Finite ? value._finite : null;
+        public static explicit operator Unbounded<T>(T? value) => value.HasValue ? new(value.Value) : new(UnboundedState.NaN);
+        public static explicit operator T?(Unbounded<T> value) => value.ToNullable();
 
         public static Unbounded<T> operator -(Unbounded<T> value)
         {

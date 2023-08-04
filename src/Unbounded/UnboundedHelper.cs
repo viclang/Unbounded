@@ -1,8 +1,30 @@
 ﻿namespace Unbounded
 {
-    public static partial class UnboundedExtensions
+    internal static class UnboundedHelper
     {
-        private static Unbounded<TResult> Add<TLeft, TRight, TResult>(
+        internal static bool TryParseUnbounded<T>(string s, out Unbounded<T>? result)
+            where T : struct, IEquatable<T>, IComparable<T>, IComparable
+        {
+            if (string.IsNullOrWhiteSpace(s) || s.Equals("NaN"))
+            {
+                result = Unbounded<T>.NaN;
+                return true;
+            }
+            if (s.Equals("-Infinity") || s.Equals("-∞"))
+            {
+                result = Unbounded<T>.NegativeInfinity;
+                return true;
+            }
+            if (s.Equals("Infinity") || s.Equals("+∞") || s.Equals("∞"))
+            {
+                result = Unbounded<T>.PositiveInfinity;
+                return true;
+            }
+            result = null;
+            return false;
+        }
+
+        internal static Unbounded<TResult> Add<TLeft, TRight, TResult>(
             Unbounded<TLeft> left,
             Unbounded<TRight> right,
             Func<TLeft, TRight, TResult> add)
@@ -12,7 +34,7 @@
         {
             if (left.IsFinite && right.IsFinite)
             {
-                return add(left.GetFiniteOrDefault(), right.GetFiniteOrDefault());
+                return new(add(left.GetFiniteOrDefault(), right.GetFiniteOrDefault()));
             }
 
             if (left.IsInfinity && right.IsInfinity && left.IsPositiveInfinity == right.IsPositiveInfinity)
@@ -33,7 +55,7 @@
             return Unbounded<TResult>.NaN;
         }
 
-        private static Unbounded<TResult> Substract<TLeft, TRight, TResult>(
+        internal static Unbounded<TResult> Substract<TLeft, TRight, TResult>(
             Unbounded<TLeft> left,
             Unbounded<TRight> right,
             Func<TLeft, TRight, TResult> substract)
@@ -43,7 +65,7 @@
         {
             if (left.IsFinite && right.IsFinite)
             {
-                return substract(left.GetFiniteOrDefault(), right.GetFiniteOrDefault());
+                return new(substract(left.GetFiniteOrDefault(), right.GetFiniteOrDefault()));
             }
 
             if (left.IsInfinity && right.IsFinite)
@@ -59,7 +81,7 @@
             return new(UnboundedState.NaN);
         }
 
-        private static Unbounded<TResult> Multiply<TLeft, TRight, TResult>(
+        internal static Unbounded<TResult> Multiply<TLeft, TRight, TResult>(
             Unbounded<TLeft> left,
             Unbounded<TRight> right,
             Func<TLeft, TRight, TResult> multiply)
@@ -69,7 +91,7 @@
         {
             if (left.IsFinite && right.IsFinite)
             {
-                return multiply(left.GetFiniteOrDefault(), right.GetFiniteOrDefault());
+                return new(multiply(left.GetFiniteOrDefault(), right.GetFiniteOrDefault()));
             }
 
             if (left.IsInfinity && right.IsFinite && !right.GetFiniteOrDefault().Equals(default))
@@ -93,7 +115,7 @@
             return Unbounded<TResult>.NaN;
         }
 
-        private static Unbounded<TResult> Divide<TLeft, TRight, TResult>(
+        internal static Unbounded<TResult> Divide<TLeft, TRight, TResult>(
             Unbounded<TLeft> left,
             Unbounded<TRight> right,
             Func<TLeft, TRight, TResult> divide)
@@ -103,7 +125,7 @@
         {
             if (left.IsFinite && right.IsFinite)
             {
-                return divide(left.GetFiniteOrDefault(), right.GetFiniteOrDefault());
+                return new(divide(left.GetFiniteOrDefault(), right.GetFiniteOrDefault()));
             }
 
             if (left.IsInfinity && right.IsFinite)
@@ -113,7 +135,7 @@
 
             if (left.IsFinite && right.IsInfinity)
             {
-                return default(TResult);
+                return new(default(TResult));
             }
 
             return Unbounded<TResult>.NaN;

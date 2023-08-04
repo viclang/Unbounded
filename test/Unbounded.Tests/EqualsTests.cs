@@ -32,8 +32,8 @@
             {
                 Unbounded<int>.NaN.Equals(Unbounded<int>.NaN),
                 Unbounded<int>.NaN.Equals((object)Unbounded<int>.NaN),
-                Unbounded<int>.NaN.Equals(double.NaN),
-                Unbounded<int>.NaN.Equals(float.NaN),
+                Unbounded<double>.NaN.Equals(double.NaN),
+                Unbounded<float>.NaN.Equals(float.NaN),
                 double.NaN.Equals(double.NaN),
                 float.NaN.Equals(float.NaN),
                 double.NaN.Equals(float.NaN)

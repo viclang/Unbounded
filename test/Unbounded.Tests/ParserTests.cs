@@ -22,10 +22,10 @@ namespace Unbounded.Tests
             // Assert
             using (new AssertionScope())
             {
-                actualEmpty.Should().Be(Unbounded<int>.PositiveInfinity);
+                actualEmpty.Should().Be(Unbounded<int>.NaN);
                 actualPositiveInfinity.Should().Be(Unbounded<int>.PositiveInfinity);
                 actualNegativeInfinity.Should().Be(Unbounded<int>.NegativeInfinity);
-                actualFinite.Should().Be(1);
+                actualFinite.Should().Be(new(1));
             }
         }
 
@@ -44,10 +44,10 @@ namespace Unbounded.Tests
             // Assert
             using (new AssertionScope())
             {
-                actualEmpty.Should().Be(Unbounded<int>.PositiveInfinity);
+                actualEmpty.Should().Be(Unbounded<int>.NaN);
                 actualPositiveInfinity.Should().Be(Unbounded<int>.PositiveInfinity);
                 actualNegativeInfinity.Should().Be(Unbounded<int>.NegativeInfinity);
-                actualFinite.Should().Be(1);
+                actualFinite.Should().Be(new(1));
             }
         }
 
@@ -61,17 +61,17 @@ namespace Unbounded.Tests
             // Act
             var actualResult = new bool[]
             {
-                Unbounded<int>.TryParse(string.Empty, out var actualEmpty),
-                Unbounded<int>.TryParse(_positiveInfinity, out var actualPositiveInfinity),
-                Unbounded<int>.TryParse(_negativeInfinity, out var actualNegativeInfinity),
-                Unbounded<int>.TryParse(finite, out var actualFinite),
+                UnboundedInt32.TryParse(string.Empty, out var actualEmpty),
+                UnboundedInt32.TryParse(_positiveInfinity, out var actualPositiveInfinity),
+                UnboundedInt32.TryParse(_negativeInfinity, out var actualNegativeInfinity),
+                UnboundedInt32.TryParse(finite, out var actualFinite),
             };
 
             // Assert
             using (new AssertionScope())
             {
                 actualResult.Should().AllBeEquivalentTo(true);
-                actualEmpty.Should().Be(Unbounded<int>.PositiveInfinity);
+                actualEmpty.Should().Be(Unbounded<int>.NaN);
                 actualPositiveInfinity.Should().Be(Unbounded<int>.PositiveInfinity);
                 actualNegativeInfinity.Should().Be(Unbounded<int>.NegativeInfinity);
                 actualFinite.Should().Be(1);
@@ -79,30 +79,30 @@ namespace Unbounded.Tests
         }
 
 
-        [Fact]
-        public void TryParseCustom_ShouldBeExpected()
-        {
-            // Arrange
-            var finite = "1,0";
+        //[Fact]
+        //public void TryParseCustom_ShouldBeExpected()
+        //{
+        //    // Arrange
+        //    var finite = "1,0";
 
-            // Act
-            var actualResult = new bool[]
-            {
-                Unbounded<int>.TryParse(string.Empty, fin => (int)double.Parse(fin), out var actualEmpty),
-                Unbounded<int>.TryParse(_positiveInfinity, fin => (int)double.Parse(fin), out var actualPositiveInfinity),
-                Unbounded<int>.TryParse(_negativeInfinity, fin => (int)double.Parse(fin), out var actualNegativeInfinity),
-                Unbounded<int>.TryParse(finite, fin => (int)double.Parse(fin), out var actualFinite)
-            };
+        //    // Act
+        //    var actualResult = new bool[]
+        //    {
+        //        UnboundedInt32.TryParse(string.Empty, , out var actualEmpty),
+        //        UnboundedInt32.TryParse(_positiveInfinity, fin => (int)double.Parse(fin), out var actualPositiveInfinity),
+        //        UnboundedInt32.TryParse(_negativeInfinity, fin => (int)double.Parse(fin), out var actualNegativeInfinity),
+        //        UnboundedInt32.TryParse(finite, fin => (int)double.Parse(fin), out var actualFinite)
+        //    };
 
-            // Assert
-            using (new AssertionScope())
-            {
-                actualResult.Should().AllBeEquivalentTo(true);
-                actualEmpty.Should().Be(Unbounded<int>.PositiveInfinity);
-                actualPositiveInfinity.Should().Be(Unbounded<int>.PositiveInfinity);
-                actualNegativeInfinity.Should().Be(Unbounded<int>.NegativeInfinity);
-                actualFinite.Should().Be(1);
-            }
-        }
+        //    // Assert
+        //    using (new AssertionScope())
+        //    {
+        //        actualResult.Should().AllBeEquivalentTo(true);
+        //        actualEmpty.Should().Be(Unbounded<int>.PositiveInfinity);
+        //        actualPositiveInfinity.Should().Be(Unbounded<int>.PositiveInfinity);
+        //        actualNegativeInfinity.Should().Be(Unbounded<int>.NegativeInfinity);
+        //        actualFinite.Should().Be(1);
+        //    }
+        //}
     }
 }

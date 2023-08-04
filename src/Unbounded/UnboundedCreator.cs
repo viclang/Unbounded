@@ -1,6 +1,6 @@
 ﻿namespace Unbounded
 {
-    public static partial class UnboundedExtensions
+    public static class UnboundedCreator
     {
         public static Unbounded<T> ToUnbounded<T>(this T? value, UnboundedState state) where T : struct, IEquatable<T>, IComparable<T>, IComparable
             => value.HasValue ? new(value.Value) : new(state);

@@ -2,7 +2,7 @@ namespace Unbounded.Tests
 {
     public abstract class ComparableTestsBase
     {
-        private static readonly Unbounded<int> maxFinite = int.MaxValue;
+        private static readonly Unbounded<int> maxFinite = new(int.MaxValue);
         private static readonly Unbounded<int> minFinite = new(int.MinValue);
 
         // Arrange
