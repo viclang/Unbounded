@@ -14,14 +14,37 @@
 
         public Unbounded(T finite)
         {
-            _finite = finite;
-            _state = UnboundedState.Finite;
+            _state = GetUnboundedState(finite);
+            _finite = _state is UnboundedState.Finite ? finite : default;
         }
 
         public Unbounded(UnboundedState state)
         {
             _finite = default;
             _state = state;
+        }
+
+        private static UnboundedState GetUnboundedState(T finite)
+        {
+            if (finite is double otherDouble)
+            {
+                if (double.IsNaN(otherDouble))
+                    return UnboundedState.NaN;
+                if (double.IsNegativeInfinity(otherDouble))
+                    return UnboundedState.NegativeInfinity;
+                if (double.IsPositiveInfinity(otherDouble))
+                    return UnboundedState.PositiveInfinity;
+            }
+            if (finite is float otherFloat)
+            {
+                if (float.IsNaN(otherFloat))
+                    return UnboundedState.NaN;
+                if (float.IsNegativeInfinity(otherFloat))
+                    return UnboundedState.NegativeInfinity;
+                if (float.IsPositiveInfinity(otherFloat))
+                    return UnboundedState.PositiveInfinity;
+            }
+            return UnboundedState.Finite;
         }
 
         public UnboundedState State => _state;
@@ -124,24 +147,6 @@
             if (other is Unbounded<T> unboundedOther)
             {
                 return Equals(unboundedOther);
-            }
-            if (other is double otherDouble)
-            {
-                if (double.IsNaN(otherDouble))
-                    return IsNaN;
-                if (double.IsNegativeInfinity(otherDouble))
-                    return IsNegativeInfinity;
-                if (double.IsPositiveInfinity(otherDouble))
-                    return IsPositiveInfinity;
-            }
-            if (other is float otherFloat)
-            {
-                if (float.IsNaN(otherFloat))
-                    return IsNaN;
-                if (float.IsNegativeInfinity(otherFloat))
-                    return IsNegativeInfinity;
-                if (float.IsPositiveInfinity(otherFloat))
-                    return IsPositiveInfinity;
             }
             if (IsFinite)
             {
