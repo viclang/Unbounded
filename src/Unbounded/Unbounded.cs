@@ -172,7 +172,7 @@
             }
         }
 
-        public static explicit operator Unbounded<T>(T? value) => value.HasValue ? new(value.Value) : new(UnboundedState.NaN);
+        public static implicit operator Unbounded<T>(T? value) => value.HasValue ? new(value.Value) : new(UnboundedState.NaN);
         public static explicit operator T?(Unbounded<T> value) => value.ToNullable();
 
         public static Unbounded<T> operator -(Unbounded<T> value)
