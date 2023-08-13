@@ -6,9 +6,9 @@
             TLeft left,
             TRight right,
             TResult result)
-        where TLeft : struct, IEquatable<TLeft>, IComparable<TLeft>, IComparable
-        where TRight : struct, IEquatable<TRight>, IComparable<TRight>, IComparable
-        where TResult : struct, IEquatable<TResult>, IComparable<TResult>, IComparable
+        where TLeft : struct, IEquatable<TLeft>, IComparable<TLeft>
+        where TRight : struct, IEquatable<TRight>, IComparable<TRight>
+        where TResult : struct, IEquatable<TResult>, IComparable<TResult>
             => new()
             {
                 { new(left) , new(right), new(result) },
@@ -30,9 +30,9 @@
             TLeft left,
             TRight right,
             TResult result)
-        where TLeft : struct, IEquatable<TLeft>, IComparable<TLeft>, IComparable
-        where TRight : struct, IEquatable<TRight>, IComparable<TRight>, IComparable
-        where TResult : struct, IEquatable<TResult>, IComparable<TResult>, IComparable
+        where TLeft : struct, IEquatable<TLeft>, IComparable<TLeft>
+        where TRight : struct, IEquatable<TRight>, IComparable<TRight>
+        where TResult : struct, IEquatable<TResult>, IComparable<TResult>
             => new()
             {
                 { new(left), new(right), new(result) },
@@ -54,9 +54,9 @@
             TLeft left,
             TRight right,
             TResult result)
-        where TLeft : struct, IEquatable<TLeft>, IComparable<TLeft>, IComparable
-        where TRight : struct, IEquatable<TRight>, IComparable<TRight>, IComparable
-        where TResult : struct, IEquatable<TResult>, IComparable<TResult>, IComparable
+        where TLeft : struct, IEquatable<TLeft>, IComparable<TLeft>
+        where TRight : struct, IEquatable<TRight>, IComparable<TRight>
+        where TResult : struct, IEquatable<TResult>, IComparable<TResult>
             => new()
             {
                 { new(left), new(right), new(result) },
@@ -78,9 +78,9 @@
             TLeft left,
             TRight right,
             TResult result)
-        where TLeft : struct, IEquatable<TLeft>, IComparable<TLeft>, IComparable
-        where TRight : struct, IEquatable<TRight>, IComparable<TRight>, IComparable
-        where TResult : struct, IEquatable<TResult>, IComparable<TResult>, IComparable
+        where TLeft : struct, IEquatable<TLeft>, IComparable<TLeft>
+        where TRight : struct, IEquatable<TRight>, IComparable<TRight>
+        where TResult : struct, IEquatable<TResult>, IComparable<TResult>
             => new()
             {
                 { new(left), new(right), new(result) },

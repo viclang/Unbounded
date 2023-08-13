@@ -1,7 +1,7 @@
 ﻿namespace Unbounded
 {
-    public readonly struct Unbounded<T> : IComparable<Unbounded<T>>, IComparable, IEquatable<Unbounded<T>>
-        where T : struct, IEquatable<T>, IComparable<T>, IComparable
+    public readonly struct Unbounded<T> : IEquatable<Unbounded<T>>, IComparable<Unbounded<T>>, IComparable
+        where T : struct, IEquatable<T>, IComparable<T>
     {
         private readonly T _finite;
         private readonly UnboundedState _state;
@@ -148,9 +148,9 @@
             {
                 return Equals(unboundedOther);
             }
-            if (IsFinite)
+            if (other is T otherValue)
             {
-                return _finite.Equals(other);
+                return Equals(new Unbounded<T>(otherValue));
             }
             return false;
         }

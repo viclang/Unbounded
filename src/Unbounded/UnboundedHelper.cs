@@ -5,17 +5,18 @@
         internal static bool TryParseUnbounded<T>(string s, out Unbounded<T>? result)
             where T : struct, IEquatable<T>, IComparable<T>, IComparable
         {
-            if (string.IsNullOrWhiteSpace(s) || s.Equals("NaN"))
+            if (s.Equals("NaN", StringComparison.OrdinalIgnoreCase) || string.IsNullOrWhiteSpace(s))
             {
                 result = Unbounded<T>.NaN;
                 return true;
             }
-            if (s.Equals("-Infinity") || s.Equals("-∞"))
+            if (s.Equals("-Infinity", StringComparison.OrdinalIgnoreCase) || s.Equals("-∞"))
             {
                 result = Unbounded<T>.NegativeInfinity;
                 return true;
             }
-            if (s.Equals("Infinity") || s.Equals("+∞") || s.Equals("∞"))
+            if (s.Equals("Infinity", StringComparison.OrdinalIgnoreCase)
+                || s.Equals("+Infinity", StringComparison.OrdinalIgnoreCase) || s.Equals("+∞") || s.Equals("∞"))
             {
                 result = Unbounded<T>.PositiveInfinity;
                 return true;
@@ -28,9 +29,9 @@
             Unbounded<TLeft> left,
             Unbounded<TRight> right,
             Func<TLeft, TRight, TResult> add)
-        where TLeft : struct, IEquatable<TLeft>, IComparable<TLeft>, IComparable
-        where TRight : struct, IEquatable<TRight>, IComparable<TRight>, IComparable
-        where TResult : struct, IEquatable<TResult>, IComparable<TResult>, IComparable
+        where TLeft : struct, IEquatable<TLeft>, IComparable<TLeft>
+        where TRight : struct, IEquatable<TRight>, IComparable<TRight>
+        where TResult : struct, IEquatable<TResult>, IComparable<TResult>
         {
             if (left.IsFinite && right.IsFinite)
             {
@@ -59,9 +60,9 @@
             Unbounded<TLeft> left,
             Unbounded<TRight> right,
             Func<TLeft, TRight, TResult> substract)
-        where TLeft : struct, IEquatable<TLeft>, IComparable<TLeft>, IComparable
-        where TRight : struct, IEquatable<TRight>, IComparable<TRight>, IComparable
-        where TResult : struct, IEquatable<TResult>, IComparable<TResult>, IComparable
+        where TLeft : struct, IEquatable<TLeft>, IComparable<TLeft>
+        where TRight : struct, IEquatable<TRight>, IComparable<TRight>
+        where TResult : struct, IEquatable<TResult>, IComparable<TResult>
         {
             if (left.IsFinite && right.IsFinite)
             {
@@ -85,9 +86,9 @@
             Unbounded<TLeft> left,
             Unbounded<TRight> right,
             Func<TLeft, TRight, TResult> multiply)
-        where TLeft : struct, IEquatable<TLeft>, IComparable<TLeft>, IComparable
-        where TRight : struct, IEquatable<TRight>, IComparable<TRight>, IComparable
-        where TResult : struct, IEquatable<TResult>, IComparable<TResult>, IComparable
+        where TLeft : struct, IEquatable<TLeft>, IComparable<TLeft>
+        where TRight : struct, IEquatable<TRight>, IComparable<TRight>
+        where TResult : struct, IEquatable<TResult>, IComparable<TResult>
         {
             if (left.IsFinite && right.IsFinite)
             {
@@ -119,9 +120,9 @@
             Unbounded<TLeft> left,
             Unbounded<TRight> right,
             Func<TLeft, TRight, TResult> divide)
-        where TLeft : struct, IEquatable<TLeft>, IComparable<TLeft>, IComparable
-        where TRight : struct, IEquatable<TRight>, IComparable<TRight>, IComparable
-        where TResult : struct, IEquatable<TResult>, IComparable<TResult>, IComparable
+        where TLeft : struct, IEquatable<TLeft>, IComparable<TLeft>
+        where TRight : struct, IEquatable<TRight>, IComparable<TRight>
+        where TResult : struct, IEquatable<TResult>, IComparable<TResult>
         {
             if (left.IsFinite && right.IsFinite)
             {
