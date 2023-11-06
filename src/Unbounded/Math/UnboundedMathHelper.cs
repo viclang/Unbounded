@@ -37,7 +37,6 @@ public static class UnboundedMathHelper
             return new(right.State);
         }
         return Unbounded<TResult>.NaN;
-
     }
 
     public static Unbounded<T> Substract<T>(
