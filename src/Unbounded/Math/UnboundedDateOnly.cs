@@ -11,7 +11,7 @@
         public static Unbounded<DateOnly> AddYears(this Unbounded<DateOnly> left, Unbounded<int> right)
             => UnboundedMathHelper.Add(left, right, (x, y) => x.AddYears(y));
 
-        public static Unbounded<int> Substract(this Unbounded<DateOnly> left, Unbounded<DateOnly> right)
+        public static Unbounded<int> SubstractByDayNumber(this Unbounded<DateOnly> left, Unbounded<DateOnly> right)
             => UnboundedMathHelper.Substract(left, right, (x, y) => x.DayNumber - y.DayNumber);
     }
 }
