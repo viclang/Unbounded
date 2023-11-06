@@ -42,6 +42,18 @@ public readonly struct Unbounded<T>
         _state = state;
     }
 
+    public static Unbounded<T> ToUnbounded(T? value, UnboundedState state)
+        => value.HasValue ? new(value.Value) : new(state);
+
+    public static Unbounded<T> ToPositiveInfinity(T? value)
+        => value.HasValue ? new(value.Value) : Unbounded<T>.PositiveInfinity;
+
+    public static Unbounded<T> ToNegativeInfinity(T? value)
+        => value.HasValue ? new(value.Value) : Unbounded<T>.NegativeInfinity;
+
+    public static Unbounded<T> ToNaN(T? value)
+        => value.HasValue ? new(value.Value) : Unbounded<T>.NaN;
+
     public UnboundedState State => _state;
     public bool IsNaN => _state is UnboundedState.NaN;
     public bool IsNegativeInfinity => _state is UnboundedState.NegativeInfinity;
