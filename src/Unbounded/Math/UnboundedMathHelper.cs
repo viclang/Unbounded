@@ -36,7 +36,7 @@ public static class UnboundedMathHelper
         {
             return new(right.State);
         }
-        return Unbounded<TResult>.NaN;
+        return Unbounded<TResult>.None;
     }
 
     public static Unbounded<T> Substract<T>(
@@ -67,7 +67,7 @@ public static class UnboundedMathHelper
         {
             return new(right.State);
         }
-        return new(UnboundedState.NaN);
+        return new(UnboundedState.None);
     }
 
     public static Unbounded<T> Multiply<T>(
@@ -95,7 +95,7 @@ public static class UnboundedMathHelper
             }
             return Unbounded<T>.NegativeInfinity;
         }
-        return Unbounded<T>.NaN;
+        return Unbounded<T>.None;
     }
 
     public static Unbounded<T> Divide<T>(
@@ -115,6 +115,6 @@ public static class UnboundedMathHelper
         {
             return new(T.Zero);
         }
-        return Unbounded<T>.NaN;
+        return Unbounded<T>.None;
     }
 }

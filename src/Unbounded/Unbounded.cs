@@ -27,7 +27,7 @@ public readonly struct Unbounded<T>
         {
             double.PositiveInfinity or float.PositiveInfinity => UnboundedState.PositiveInfinity,
             double.NegativeInfinity or float.NegativeInfinity => UnboundedState.NegativeInfinity,
-            double.NaN or float.NaN => UnboundedState.NaN,
+            double.NaN or float.NaN => UnboundedState.None,
             _ => UnboundedState.Finite
         };
         if (_state is UnboundedState.Finite)
@@ -43,7 +43,7 @@ public readonly struct Unbounded<T>
     }
 
     public UnboundedState State => _state;
-    public bool IsNaN => _state is UnboundedState.NaN;
+    public bool IsNaN => _state is UnboundedState.None;
     public bool IsNegativeInfinity => _state is UnboundedState.NegativeInfinity;
     public bool IsFinite => _state is UnboundedState.Finite;
     public bool IsPositiveInfinity => _state is UnboundedState.PositiveInfinity;
@@ -52,7 +52,7 @@ public readonly struct Unbounded<T>
     public T GetFiniteOrDefault() => _finite;
     public T? ToNullable() => IsFinite ? _finite : null;
 
-    public static readonly Unbounded<T> NaN = new(UnboundedState.NaN);
+    public static readonly Unbounded<T> None = new(UnboundedState.None);
 
     public static readonly Unbounded<T> NegativeInfinity = new(UnboundedState.NegativeInfinity);
 
@@ -62,11 +62,11 @@ public readonly struct Unbounded<T>
         Func<T, TResult> finite,
         Func<Unbounded<T>, TResult> negativeInfinity,
         Func<Unbounded<T>, TResult> positiveInfinity,
-        Func<Unbounded<T>, TResult> nan)
+        Func<Unbounded<T>, TResult> none)
     {
         return _state switch
         {
-            UnboundedState.NaN when nan is not null => nan(this),
+            UnboundedState.None when none is not null => none(this),
             UnboundedState.NegativeInfinity when negativeInfinity is not null => negativeInfinity(this),
             UnboundedState.Finite when finite is not null => finite(_finite),
             UnboundedState.PositiveInfinity when positiveInfinity is not null => positiveInfinity(this),
@@ -113,7 +113,10 @@ public readonly struct Unbounded<T>
         throw new ArgumentException("other is not the same type as this instance.");
     }
 
-    public bool Equals(Unbounded<T> other) => _finite.Equals(other._finite) && _state.Equals(other._state);
+    public bool Equals(Unbounded<T> other)
+    {
+        return _finite.Equals(other._finite) && _state.Equals(other._state);
+    }
 
     public override bool Equals(object? other)
     {
@@ -136,7 +139,7 @@ public readonly struct Unbounded<T>
 
     public string? ToString(Func<T, string?> finiteToString) => State switch
     {
-        UnboundedState.NaN => "NaN",
+        UnboundedState.None => "NaN",
         UnboundedState.NegativeInfinity => "-Infinity",
         UnboundedState.Finite => finiteToString(_finite),
         UnboundedState.PositiveInfinity => "Infinity",
@@ -154,7 +157,7 @@ public readonly struct Unbounded<T>
         }
     }
 
-    public static implicit operator Unbounded<T>(T? value) => value.HasValue ? new(value.Value) : new(UnboundedState.NaN);
+    public static implicit operator Unbounded<T>(T? value) => value.HasValue ? new(value.Value) : new(UnboundedState.None);
     public static explicit operator T?(Unbounded<T> value) => value.ToNullable();
 
     public static Unbounded<T> operator -(Unbounded<T> value)
@@ -182,7 +185,7 @@ public readonly struct Unbounded<T>
 
     public static bool operator !=(Unbounded<T> left, Unbounded<T> right)
     {
-        return !(left == right);
+        return !left.Equals(right);
     }
 
     public static bool operator <(Unbounded<T> left, Unbounded<T> right)
@@ -254,7 +257,7 @@ public readonly struct Unbounded<T>
     {
         if (s.IsWhiteSpace() || MemoryExtensions.Equals(s, "NaN", StringComparison.OrdinalIgnoreCase))
         {
-            result = Unbounded<T>.NaN;
+            result = Unbounded<T>.None;
             return true;
         }
         if (MemoryExtensions.Equals(s, "-Infinity", StringComparison.OrdinalIgnoreCase)
