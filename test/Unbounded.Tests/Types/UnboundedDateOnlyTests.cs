@@ -54,7 +54,7 @@ namespace Unbounded.Tests
         [MemberData(nameof(SubstractData))]
         public void DateOnly_Substract_ReturnsExpected(Unbounded<DateOnly> left, Unbounded<DateOnly> right, Unbounded<int> expected)
         {
-            var actual = left.Substract(right);
+            var actual = left.SubstractDayNumberOf(right);
 
             actual.Should().Be(expected);
         }

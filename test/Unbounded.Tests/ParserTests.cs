@@ -30,29 +30,6 @@ namespace Unbounded.Tests
         }
 
         [Fact]
-        public void ParseCustom_ShouldBeExpected()
-        {
-            // Arrange
-            var finite = "1,0";
-
-            // Act
-            var actualEmpty = Unbounded<int>.Parse(string.Empty);
-            var actualPositiveInfinity = Unbounded<int>.Parse(_positiveInfinity, fin => (int)double.Parse(fin));
-            var actualNegativeInfinity = Unbounded<int>.Parse(_negativeInfinity, fin => (int)double.Parse(fin));
-            var actualFinite = Unbounded<int>.Parse(finite, fin => (int)double.Parse(fin));
-
-            // Assert
-            using (new AssertionScope())
-            {
-                actualEmpty.Should().Be(Unbounded<int>.NaN);
-                actualPositiveInfinity.Should().Be(Unbounded<int>.PositiveInfinity);
-                actualNegativeInfinity.Should().Be(Unbounded<int>.NegativeInfinity);
-                actualFinite.Should().Be(new(1));
-            }
-        }
-
-
-        [Fact]
         public void TryParseDefault_ShouldBeExpected()
         {
             // Arrange
@@ -61,10 +38,10 @@ namespace Unbounded.Tests
             // Act
             var actualResult = new bool[]
             {
-                UnboundedInt32.TryParse(string.Empty, out var actualEmpty),
-                UnboundedInt32.TryParse(_positiveInfinity, out var actualPositiveInfinity),
-                UnboundedInt32.TryParse(_negativeInfinity, out var actualNegativeInfinity),
-                UnboundedInt32.TryParse(finite, out var actualFinite),
+                Unbounded<int>.TryParse(string.Empty, null, out var actualEmpty),
+                Unbounded<int>.TryParse(_positiveInfinity, null, out var actualPositiveInfinity),
+                Unbounded<int>.TryParse(_negativeInfinity, null, out var actualNegativeInfinity),
+                Unbounded<int>.TryParse(finite, null, out var actualFinite),
             };
 
             // Assert

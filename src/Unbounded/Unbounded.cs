@@ -42,18 +42,6 @@ public readonly struct Unbounded<T>
         _state = state;
     }
 
-    public static Unbounded<T> ToUnbounded(T? value, UnboundedState state)
-        => value.HasValue ? new(value.Value) : new(state);
-
-    public static Unbounded<T> ToPositiveInfinity(T? value)
-        => value.HasValue ? new(value.Value) : Unbounded<T>.PositiveInfinity;
-
-    public static Unbounded<T> ToNegativeInfinity(T? value)
-        => value.HasValue ? new(value.Value) : Unbounded<T>.NegativeInfinity;
-
-    public static Unbounded<T> ToNaN(T? value)
-        => value.HasValue ? new(value.Value) : Unbounded<T>.NaN;
-
     public UnboundedState State => _state;
     public bool IsNaN => _state is UnboundedState.NaN;
     public bool IsNegativeInfinity => _state is UnboundedState.NegativeInfinity;
@@ -223,12 +211,12 @@ public readonly struct Unbounded<T>
         state = _state;
     }
 
-    public static Unbounded<T> Parse(string s, IFormatProvider? provider)
+    public static Unbounded<T> Parse(string s, IFormatProvider? provider = default)
     {
         return Parse(s.AsSpan(), provider);
     }
 
-    public static Unbounded<T> Parse(ReadOnlySpan<char> s, IFormatProvider? provider)
+    public static Unbounded<T> Parse(ReadOnlySpan<char> s, IFormatProvider? provider = default)
     {
         if (TryParseUnbounded(s, out var result))
         {
@@ -264,18 +252,21 @@ public readonly struct Unbounded<T>
 
     public static bool TryParseUnbounded(ReadOnlySpan<char> s, [NotNullWhen(true)] out Unbounded<T> result)
     {
-        if (s.IsWhiteSpace() || s.Equals("NaN", StringComparison.OrdinalIgnoreCase))
+        if (s.IsWhiteSpace() || MemoryExtensions.Equals(s, "NaN", StringComparison.OrdinalIgnoreCase))
         {
             result = Unbounded<T>.NaN;
             return true;
         }
-        if (s.Equals("-Infinity", StringComparison.OrdinalIgnoreCase) || s.Equals("-∞"))
+        if (MemoryExtensions.Equals(s, "-Infinity", StringComparison.OrdinalIgnoreCase)
+            || MemoryExtensions.Equals(s, "-∞", StringComparison.CurrentCulture))
         {
             result = Unbounded<T>.NegativeInfinity;
             return true;
         }
-        if (s.Equals("Infinity", StringComparison.OrdinalIgnoreCase)
-            || s.Equals("+Infinity", StringComparison.OrdinalIgnoreCase) || s.Equals("+∞") || s.Equals("∞"))
+        if (MemoryExtensions.Equals(s, "Infinity", StringComparison.OrdinalIgnoreCase)
+            || MemoryExtensions.Equals(s, "+Infinity", StringComparison.OrdinalIgnoreCase)
+            || MemoryExtensions.Equals(s, "+∞", StringComparison.CurrentCulture)
+            || MemoryExtensions.Equals(s, "∞", StringComparison.CurrentCulture))
         {
             result = Unbounded<T>.PositiveInfinity;
             return true;
