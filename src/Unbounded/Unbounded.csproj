@@ -11,7 +11,7 @@
 		<Copyright>Victor Langemaire</Copyright>
 		<RepositoryUrl>https://github.com/viclang/Unbounded</RepositoryUrl>
 		<requireLicenseAcceptance>true</requireLicenseAcceptance>
-		<description>A generic struct called "Unbounded&lt;T&gt;" that enables working with a range of values, including finite numbers, NaN (Not-a-Number), positive infinity, and negative infinity.</description>
+		<description>A generic struct called "Unbounded&lt;T&gt;" that enables working with a range of values, including finite numbers, none, positive infinity, and negative infinity.</description>
 		<RepositoryType>git</RepositoryType>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
