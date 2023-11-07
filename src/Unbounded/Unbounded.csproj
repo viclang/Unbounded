@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<version>1.0.2</version>
+		<version>1.0.3</version>
 		<Nullable>enable</Nullable>
 		<id>Unbounded</id>
 		<authors>Victor Langemaire</authors>
