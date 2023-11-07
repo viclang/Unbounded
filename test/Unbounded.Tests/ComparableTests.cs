@@ -25,7 +25,7 @@ public class ComparableTests : ComparableTestsBase
     }
 
     [Fact]
-    public void NaN_CompareTo_NaN_ReturnsZero()
+    public void None_CompareTo_None_ReturnsZero()
     {
         // Act
         var actual = new int[]

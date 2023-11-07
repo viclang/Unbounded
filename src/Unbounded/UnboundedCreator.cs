@@ -17,7 +17,7 @@ public static class UnboundedCreator
         return value.HasValue ? new(value.Value) : Unbounded<T>.NegativeInfinity;
     }
 
-    public static Unbounded<T> ToNaN<T>(this T? value) where T : struct, IEquatable<T>, IComparable<T>, ISpanParsable<T>
+    public static Unbounded<T> ToNone<T>(this T? value) where T : struct, IEquatable<T>, IComparable<T>, ISpanParsable<T>
     {
         return value.HasValue ? new(value.Value) : Unbounded<T>.None;
     }

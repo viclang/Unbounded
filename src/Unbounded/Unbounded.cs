@@ -43,7 +43,7 @@ public readonly struct Unbounded<T>
     }
 
     public UnboundedState State => _state;
-    public bool IsNaN => _state is UnboundedState.None;
+    public bool IsNone => _state is UnboundedState.None;
     public bool IsNegativeInfinity => _state is UnboundedState.NegativeInfinity;
     public bool IsFinite => _state is UnboundedState.Finite;
     public bool IsPositiveInfinity => _state is UnboundedState.PositiveInfinity;
@@ -139,7 +139,7 @@ public readonly struct Unbounded<T>
 
     public string? ToString(Func<T, string?> finiteToString) => State switch
     {
-        UnboundedState.None => "NaN",
+        UnboundedState.None => "None",
         UnboundedState.NegativeInfinity => "-Infinity",
         UnboundedState.Finite => finiteToString(_finite),
         UnboundedState.PositiveInfinity => "Infinity",
@@ -255,7 +255,7 @@ public readonly struct Unbounded<T>
 
     public static bool TryParseUnbounded(ReadOnlySpan<char> s, [NotNullWhen(true)] out Unbounded<T> result)
     {
-        if (s.IsWhiteSpace() || MemoryExtensions.Equals(s, "NaN", StringComparison.OrdinalIgnoreCase))
+        if (s.IsWhiteSpace() || MemoryExtensions.Equals(s, "None", StringComparison.OrdinalIgnoreCase))
         {
             result = Unbounded<T>.None;
             return true;

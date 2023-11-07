@@ -25,7 +25,7 @@ public class EqualsTests : ComparableTestsBase
     }
 
     [Fact]
-    public void NaN_Equals_NaN_ReturnsTrue()
+    public void None_Equals_None_ReturnsTrue()
     {
         // Act
         var actual = new bool[]
