@@ -1,8 +1,4 @@
-﻿using FluentAssertions.Execution;
-using Unbounded;
-using Unbounded.Tests;
-
-namespace InfinityComparable.Tests
+﻿namespace Unbounded.Tests
 {
     public class OperatorTests : ComparableTestsBase
     {
