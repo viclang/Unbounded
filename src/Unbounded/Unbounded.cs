@@ -25,15 +25,12 @@ public readonly struct Unbounded<T>
     {
         _state = value switch
         {
-            double.PositiveInfinity or float.PositiveInfinity => UnboundedState.PositiveInfinity,
-            double.NegativeInfinity or float.NegativeInfinity => UnboundedState.NegativeInfinity,
-            double.NaN or float.NaN => UnboundedState.None,
+            float.PositiveInfinity or double.PositiveInfinity => UnboundedState.PositiveInfinity,
+            float.NegativeInfinity or double.NegativeInfinity => UnboundedState.NegativeInfinity,
+            float.NaN or double.NaN => UnboundedState.None,
             _ => UnboundedState.Finite
         };
-        if (_state is UnboundedState.Finite)
-        {
-            _finite = value;
-        }
+        _finite = value;
     }
 
     public Unbounded(UnboundedState state)
@@ -50,7 +47,12 @@ public readonly struct Unbounded<T>
     public bool IsInfinity => _state is UnboundedState.NegativeInfinity or UnboundedState.PositiveInfinity;
 
     public T GetFiniteOrDefault() => _finite;
-    public T? ToNullable() => IsFinite ? _finite : null;
+    public T? ToNullable() => _finite switch
+    {
+        float.NegativeInfinity or float.PositiveInfinity or float.NaN or
+        double.NegativeInfinity or double.PositiveInfinity or double.NaN => _finite,
+        _ => IsFinite ? _finite : null,
+    };
 
     public static readonly Unbounded<T> None = new(UnboundedState.None);
 
