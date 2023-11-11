@@ -22,7 +22,7 @@ public static class UnboundedMathHelper
     {
         if (left.IsFinite && right.IsFinite)
         {
-            return new(add(left.GetFiniteOrDefault(), right.GetFiniteOrDefault()));
+            return new(add(left.GetValueOrDefault(), right.GetValueOrDefault()));
         }
         if (left.IsInfinity && right.IsInfinity && left.IsPositiveInfinity == right.IsPositiveInfinity)
         {
@@ -57,7 +57,7 @@ public static class UnboundedMathHelper
     {
         if (left.IsFinite && right.IsFinite)
         {
-            return new(substract(left.GetFiniteOrDefault(), right.GetFiniteOrDefault()));
+            return new(substract(left.GetValueOrDefault(), right.GetValueOrDefault()));
         }
         if (left.IsInfinity && right.IsFinite)
         {
@@ -77,13 +77,13 @@ public static class UnboundedMathHelper
     {
         if (left.IsFinite && right.IsFinite)
         {
-            return new(left.GetFiniteOrDefault() * right.GetFiniteOrDefault());
+            return new(left.GetValueOrDefault() * right.GetValueOrDefault());
         }
-        if (left.IsInfinity && right.IsFinite && !right.GetFiniteOrDefault().Equals(default))
+        if (left.IsInfinity && right.IsFinite && !right.GetValueOrDefault().Equals(default))
         {
             return new(left.State);
         }
-        if (left.IsFinite && right.IsInfinity && !left.GetFiniteOrDefault().Equals(default))
+        if (left.IsFinite && right.IsInfinity && !left.GetValueOrDefault().Equals(default))
         {
             return new(right.State);
         }
@@ -105,7 +105,7 @@ public static class UnboundedMathHelper
     {
         if (left.IsFinite && right.IsFinite)
         {
-            return new(left.GetFiniteOrDefault() / right.GetFiniteOrDefault());
+            return new(left.GetValueOrDefault() / right.GetValueOrDefault());
         }
         if (left.IsInfinity && right.IsFinite)
         {

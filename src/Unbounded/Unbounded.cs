@@ -117,7 +117,7 @@ public readonly struct Unbounded<T>
 
     public bool Equals(Unbounded<T> other)
     {
-        return _finite.Equals(other._finite) && _state.Equals(other._state);
+        return IsFinite ? _finite.Equals(other._finite) : _state.Equals(other._state);
     }
 
     public override bool Equals(object? other)
