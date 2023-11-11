@@ -46,7 +46,7 @@ public readonly struct Unbounded<T>
     public bool IsPositiveInfinity => _state is UnboundedState.PositiveInfinity;
     public bool IsInfinity => _state is UnboundedState.NegativeInfinity or UnboundedState.PositiveInfinity;
 
-    public T GetFiniteOrDefault() => _finite;
+    public T GetValueOrDefault() => _finite;
     public T? ToNullable() => _finite switch
     {
         float.NegativeInfinity or float.PositiveInfinity or float.NaN or
